@@ -7,6 +7,7 @@ import reducer from './reducers'
 import History from './components/History'
 import viewDecks from './components/viewDecks'
 import viewOneDeck from './components/viewOneDeck'
+import addDeck from './components/AddDeck'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
@@ -32,7 +33,7 @@ const Tabs = TabNavigator({
     },
   },
   AddDeck: {
-    screen: AddEntry,
+    screen: addDeck,
     navigationOptions: {
       tabBarLabel: 'ADD DECK',
       // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
@@ -81,7 +82,7 @@ const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
   },
-  AddEntry: {
+  ViewOneDeck: {
     screen: viewOneDeck,
     navigationOptions: {
       headerTintColor: white,

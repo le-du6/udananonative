@@ -18,7 +18,7 @@ import { receiveDecks } from '../actions'
 const deckItem = ({ key, title, nbQuestions }, navigation) => {
   return (
     <TouchableOpacity style={styles.decks} key={key} onPress={() => navigation.navigate(
-      'AddEntry',
+      'ViewOneDeck',
       { entryId: key }
     )} >
       <Text style={{fontSize: 25, textAlign: 'center'}}>
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     // flex: 1,
   },
   decks: {
-    borderColor: red,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 5,

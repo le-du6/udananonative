@@ -15,20 +15,21 @@ import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
 import { receiveOneDeck, receiveDecks } from '../actions'
 
-class viewOneDeck extends Component {
+class addDeck extends Component {
   state = {
     ready: false,
   }
   componentDidMount() {
+    const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
 
-    getDeck(this.props.navigation.state.params.entryId)
+    getDeck(entryId)
     .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
     .then(()=> {
       this.setState({ready: true})
     })
   }
   render() {
-    // console.log('this.props.deck from viewOneDeck: ', this.props.deck)
+    // console.log('this.props.deck from addDeck: ', this.props.deck)
     const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
     const title = (this.props.deck) ? this.props.deck.title : ''
     const questions = (this.props.deck['questions']) ? this.props.deck['questions'].map(x=>[x.answer, x.question]) : ''
@@ -81,4 +82,4 @@ const styles = StyleSheet.create({
 // const mapStateToProps = decks => ({ decks })
 const mapStateToProps = deck => ({ deck })
 
-export default connect(mapStateToProps, )(viewOneDeck)
+export default connect(mapStateToProps, )(addDeck)
