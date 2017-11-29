@@ -10,11 +10,13 @@ const decks = (state = { decks: init1['decks'].concat(init2.decks)}, action) => 
     case RECEIVE_DECKS :
       // console.log(state['decks'])
       return {
+        ...state,
         decks: [...state['decks'], ...action.decks['decks']]
       }
     case RECEIVE_ONE_DECK :
       return {
-        deck: {...action.deck}
+        ...state,
+        ...action.deck
       }
     case ADD_ENTRY :
       return {

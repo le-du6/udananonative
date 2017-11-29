@@ -17,42 +17,51 @@ import { receiveOneDeck, receiveDecks } from '../actions'
 
 class viewOneDeck extends Component {
   state = {
-    ready: true,
+    ready: false,
   }
   componentDidMount() {
-    const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
 
-    getDeck(entryId)
-      .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
+    getDeck(this.props.navigation.state.params.entryId)
+    .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
+    .then(()=> {
+      this.setState({ready: true})
+    })
   }
   render() {
-    const { ready } = this.state
-    const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
-    console.log('this.props from viewOneDeck: ', this.props)
-    console.log('key from viewOneDeck: ', entryId)
-    console.log('deck from viewOneDeck: ', this.props.deck)
+    console.log('this.props.deck from viewOneDeck: ', this.props.deck)
 
-    if (ready === false) {
+    const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
+    const title = (this.props.deck) ? this.props.deck.title : ''
+    const questions = (this.props.deck['questions']) ? this.props.deck['questions'].map(x=>[x.answer, x.question]).join(' ') : ''
+    // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
+    // console.log('this.props from viewOneDeck: ', this.props)
+    // console.log('key from viewOneDeck: ', entryId)
+    // console.log('questions from viewOneDeck: ', this.props.deck['questions'])
+
+    // const title = (this.props.deck) ? this.props.title : ''
+    // const questions = (this.props.deck) ? this.props.deck['questions'].join(' ') : ''
+
+    if (this.state.ready === false) {
       return <AppLoading />
     }
-
-  return (
-    <View>
-      {/* <TouchableOpacity style={styles.decks} onPress={() => navigation.navigate(
-      'AddEntry',
-      { entryId: item.title }
-      )} > */}
-      <Text style={{fontSize: 25, textAlign: 'center'}}>
-        { entryId }
-        { this.props.deck.title }
-        { this.props.deck.questions }
-      </Text>
-      <Text style={{fontSize: 15, textAlign: 'center'}}>
-        {/* { item.length } cards */}
-      </Text>
-      {/* </TouchableOpacity> */}
-    </View>
-    )
+    return (
+      <View>
+        {/* <TouchableOpacity style={styles.decks} onPress={() => navigation.navigate(
+        'AddEntry',
+        { entryId: item.title }
+        )} > */}
+        <Text style={{fontSize: 25, textAlign: 'center'}}>
+          { entryId }
+        </Text>
+        <Text style={{fontSize: 15, textAlign: 'center'}}>
+          { title }
+        </Text>
+        <Text style={{fontSize: 15, textAlign: 'center'}}>
+          { questions }
+        </Text>
+        {/* </TouchableOpacity> */}
+      </View>
+      )
   }
 }
 

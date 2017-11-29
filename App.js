@@ -48,7 +48,7 @@ const Tabs = TabNavigator({
       // alignItems: "center",
       // justifyContent: "center",
     },
-    headerRight: <Button title="Info" color={white}/>,
+    headerRight: <Button title="Info" color={white} onPress={x=>x}/>,
     headerTintColor: Platform.OS === 'ios' ? white : white,
     headerStyle: {
       // flex: 1,
