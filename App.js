@@ -12,7 +12,9 @@ import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } 
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './components/EntryDetail'
-import { getDecks2 } from './utils/_decksData'
+import { setDecks, getDecks2 } from './utils/_decksData'
+import { initialDecks } from './utils/_decksPureData'
+
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {
   return (
@@ -98,7 +100,7 @@ export default class App extends React.Component {
     ready: false,
   }
   componentDidMount() {
-
+    setDecks(initialDecks);
   }
   render() {
     return (

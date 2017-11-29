@@ -8,9 +8,9 @@ import {
 const decks = (state = { decks: init1['decks'].concat(init2.decks)}, action) => {
   switch (action.type) {
     case RECEIVE_DECKS :
+      // console.log(state['decks'])
       return {
-        ...state,
-        ...action.decks,
+        decks: [...state['decks'], ...action.decks['decks']]
       }
     case RECEIVE_ONE_DECK :
       return {

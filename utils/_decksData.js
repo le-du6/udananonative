@@ -1,14 +1,11 @@
-// Utilities for backfilling the calendar.
-
 import { AsyncStorage } from 'react-native'
 import { getMetricMetaInfo, timeToString } from './helpers'
-import { initialDecks } from './_decksPureData'
 export const DECKS_STORAGE_KEY = 'myPersoDecks:decks'
 
-// export const setDecks = (data) => {
-//   AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
-//   return data
-// }
+export const setDecks = (data) => {
+  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
+  return data
+}
 
 export const getDeck = (id) => {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
