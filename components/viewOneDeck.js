@@ -10,38 +10,27 @@ import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } 
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './EntryDetail'
-import { getData, getDecks, getDecks2 } from '../utils/_decksData'
+import { getDeck, getDecks } from '../utils/_decksData'
 import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
-import { receiveDecks } from '../actions'
-
-const deckItem = (entryId, navigation) => {
-  return (
-    <TouchableOpacity style={styles.decks} onPress={() => navigation.navigate(
-      'AddEntry',
-      { entryId: item.title }
-    )} >
-      <Text style={{fontSize: 25, textAlign: 'center'}}>
-        {/* { item.title } */}
-        { entryId }
-      </Text>
-      {/* <Text style={{fontSize: 15, textAlign: 'center'}}>
-        { item.length } cards
-      </Text> */}
-    </TouchableOpacity>
-  )}
+import { receiveOneDeck, receiveDecks } from '../actions'
 
 class viewOneDeck extends Component {
   state = {
     ready: true,
   }
   componentDidMount() {
+    const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
 
+    getDeck(entryId)
+      .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
   }
   render() {
     const { ready } = this.state
     const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
-    console.log('entryId: ',entryId)
+    console.log('this.props from viewOneDeck: ', this.props)
+    console.log('key from viewOneDeck: ', entryId)
+    console.log('deck from viewOneDeck: ', this.props.deck)
 
     if (ready === false) {
       return <AppLoading />
@@ -49,7 +38,19 @@ class viewOneDeck extends Component {
 
   return (
     <View>
-      {deckItem(entryId, this.props)}
+      {/* <TouchableOpacity style={styles.decks} onPress={() => navigation.navigate(
+      'AddEntry',
+      { entryId: item.title }
+      )} > */}
+      <Text style={{fontSize: 25, textAlign: 'center'}}>
+        { entryId }
+        { this.props.deck.title }
+        { this.props.deck.questions }
+      </Text>
+      <Text style={{fontSize: 15, textAlign: 'center'}}>
+        {/* { item.length } cards */}
+      </Text>
+      {/* </TouchableOpacity> */}
     </View>
     )
   }
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const mapStateToProps = decks => ({ decks })
+// const mapStateToProps = decks => ({ decks })
+const mapStateToProps = deck => ({ deck })
 
 export default connect(mapStateToProps, )(viewOneDeck)

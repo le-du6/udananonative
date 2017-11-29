@@ -8,6 +8,7 @@ export const setDecks = (data) => {
 }
 
 export const getDeck = (id) => {
+  console.log(id)
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
   .then((data) => {
     const res = JSON.parse(data)

@@ -14,8 +14,7 @@ const decks = (state = { decks: init1['decks'].concat(init2.decks)}, action) => 
       }
     case RECEIVE_ONE_DECK :
       return {
-        ...state,
-        ...action.deck,
+        deck: {...action.deck}
       }
     case ADD_ENTRY :
       return {

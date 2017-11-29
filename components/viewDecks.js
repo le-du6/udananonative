@@ -15,29 +15,30 @@ import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
 import { receiveDecks } from '../actions'
 
-const deckItem = ({ item }, navigation) => {
+const deckItem = ({ key, title, nbQuestions }, navigation) => {
   return (
-    <TouchableOpacity style={styles.decks} key={item.title} onPress={() => navigation.navigate(
+    <TouchableOpacity style={styles.decks} key={key} onPress={() => navigation.navigate(
       'AddEntry',
-      { entryId: item.title }
+      { entryId: key }
     )} >
       <Text style={{fontSize: 25, textAlign: 'center'}}>
-        { item.title }
+        { title }
       </Text>
       <Text style={{fontSize: 15, textAlign: 'center'}}>
-        { item.length } cards
+        { nbQuestions } cards
       </Text>
     </TouchableOpacity>
   )}
 
 const vDecks = (decks, { navigation }) => {
   const data = decks.map((deck, index) => {
-    return { title: deck.title, length: deck.nbQuestions }
+    // console.log('one by one :', deck)
+    return deck
   })
   return (
     <FlatList
       data={data}
-      renderItem={x => deckItem(x, navigation)}
+      renderItem={deck => deckItem(deck.item, navigation)}
       keyExtractor={(v,i) => i}
     />
   )
@@ -48,25 +49,20 @@ class viewDecks extends Component {
     ready: false,
   }
   componentDidMount() {
-    const { dispatch } = this.props
     getDecks()
-      .then((decks) => dispatch(receiveDecks(decks)))
+      .then((decks) => this.props.dispatch(receiveDecks(decks)))
       .then(() => this.setState(() => ({ready: true})))
       .catch(() => this.setState(() => ({ready: true})))
   }
   render() {
-    const decks = this.props.decks
-    const { ready } = this.state
-
-    if (ready === false) {
+    if (this.state.ready === false) {
       return <AppLoading />
     }
-
-  return (
-    <View>
-      {vDecks(decks, this.props)}
-    </View>
-    )
+    return (
+      <View>
+        {vDecks(this.props.decks, this.props)}
+      </View>
+      )
   }
 }
 
