@@ -17,8 +17,8 @@ export const getDeck = (id) => {
     console.log('res: ', res[id])
     return res[id]
   })
-  .catch(() => {
-    console.log('No Decks - Fetching somes inital dummyDecks')
+  .catch((err) => {
+    console.log('Pb to retreive One Deck: ', err)
     // return initialDecks
   })
 }

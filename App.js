@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
+import { Button, TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
 import AddEntry from './components/AddEntry'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -21,7 +21,6 @@ const UdaciStatusBar = ({backgroundColor, ...props}) => {
     </View>
   )
 }
-
 const Tabs = TabNavigator({
   Decks: {
     screen: viewDecks,
@@ -40,7 +39,22 @@ const Tabs = TabNavigator({
 },
 {
   navigationOptions: {
-    header: null
+    title: "All Decks",
+    headerTitleStyle: {
+      // flex: 1,
+      fontSize: 20,
+      // alignItems: "center",
+      // justifyContent: "center",
+    },
+    headerRight: <Button title="Info" color={white}/>,
+    headerTintColor: Platform.OS === 'ios' ? white : white,
+    headerStyle: {
+      // flex: 1,
+      // fontSize: 30,
+      // alignItems: 'flex-start',
+      // justifyContent: "center",
+      backgroundColor: Platform.OS === 'ios' ? deepBlue : deepBlue,
+    },
   },
   tabBarOptions: {
     activeTintColor: Platform.OS === 'ios' ? deepBlue : white,
@@ -70,21 +84,12 @@ const MainNavigator = StackNavigator({
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
-        backgroundColor: red,
+        backgroundColor: deepBlue,
       },
     // header: null
     // tabBarLabel: 'NEW DECK',
       // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
-  },
-  EntryDetail: {
-    screen: EntryDetail,
-    navigationOptions: {
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: red,
-      }
-    }
   }
 })
 
