@@ -29,10 +29,11 @@ function SubmitBtn ({ onPress }) {
 class addDeck extends Component {
   state = {
     ready: true,
-    input: 'New Deck Name'
+    input: ''
   }
   handleTextChange = (input) => {
-    this.setState(() => { input } )
+    console.log()
+    this.setState({ input }, x=>console.log(this.state.input) )
   }
   componentDidMount() {
     // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
@@ -60,7 +61,10 @@ class addDeck extends Component {
           </Text>
 
           <View style={styles.inputText} >
-            <TextInput style={{fontSize: 30, textAlign: 'center', backgroundColor: white}}>
+            <TextInput
+              value={this.state.input}
+              onChangeText={this.handleTextChange}
+              style={{fontSize: 30, textAlign: 'center', backgroundColor: white}}>
             </TextInput>
           </View>
 
