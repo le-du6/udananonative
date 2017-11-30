@@ -95,7 +95,7 @@ export default class App extends React.Component {
     ready: false,
     title: 'Default',
   }
-  componentDidMount() {
+  componentWillMount() {
     setDecks(initialDecks);
   }
   render() {

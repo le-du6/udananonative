@@ -20,25 +20,22 @@ class viewOneDeck extends Component {
     ready: false,
     entryId: 'no entryID',
     title: 'no title',
+    questions: [],
   }
   componentDidMount() {
     getDeck(this.props.navigation.state.params.entryId)
     .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
     .then(()=> {
-      // console.log('this.props.currentDeck from viewOneDeck: ', this.props)
-      // const {title = 'rien'} = this.props.currentDeck
       this.setState({
         ready: true,
         entryId: this.props.navigation.state.params.entryId,
-        title: this.props.currentDeck.title
+        title: this.props.currentDeck.title,
+        questions: this.props.currentDeck['questions'],
       })
     })
   }
   render() {
-    // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
-    const title = (this.props.currentDeck) ? this.props.currentDeck.title : 'void title'
     console.log(this.state.title)
-    // const questions = (this.props.currentDeck['questions']) ? this.props.currentDeck['questions'].map(x=>[x.answer, x.question]) : ''
 
     if (this.state.ready === false) {
       return <AppLoading />
@@ -55,13 +52,20 @@ class viewOneDeck extends Component {
             title: { this.state.title }
           </Text>
         </View>
-        {/* {questions.map((e,i) =>
-          <View style={styles.decks} key={i} >
-            <Text style={{fontSize: 20, paddingLeft: 20, paddingRight: 20}} >
-              { e }
-            </Text>
+        {this.state.questions.map((e,i) =>
+          <View key={i}>
+            <View style={styles.decks}>
+              <Text style={{fontSize: 20, paddingLeft: 20, paddingRight: 20}}>
+                { e.question }
+              </Text>
+            </View>
+            <View style={styles.decks}>
+              <Text style={{fontSize: 20, paddingLeft: 20, paddingRight: 20}}>
+                { e.answer }
+              </Text>
+            </View>
           </View>
-        )} */}
+        )}
       </View>
       )
   }
