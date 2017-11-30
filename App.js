@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
-import AddEntry from './components/AddEntry'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
@@ -9,12 +8,9 @@ import viewOneDeck from './components/viewOneDeck'
 import addDeck from './components/AddDeck'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from './utils/colors'
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
-import EntryDetail from './components/EntryDetail'
 import { setDecks } from './utils/_decksData'
 import { initialDecks } from './utils/_decksPureData'
-
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {
   return (

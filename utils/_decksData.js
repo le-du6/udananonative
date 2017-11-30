@@ -16,8 +16,7 @@ export const getDeck = (id) => {
     return res[id]
   })
   .catch((err) => {
-    console.log('Pb to retreive One Deck: ', err)
-    // return initialDecks
+    console.error('Pb to retreive One Deck: ', err)
   })
 }
 
@@ -31,24 +30,9 @@ export const getDecks = () => {
     return {decks: trt}
   })
   .catch(() => {
-    console.log('No Decks - Fetching somes inital dummyDecks')
-    // return initialDecks
+    console.error('No Decks - Fetching somes inital dummyDecks')
   })
 }
-
-// export const getDecks2 = async () => {
-//   // try {
-//     const value = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
-//     if (value !== null){
-//       // We have data!!
-//       console.log(value);
-//       return value
-//     }
-// //   } catch (error) {
-// //     console.error('No Decks - Fetching somes inital dummyDecks', error)
-// // }
-// }
-
 
 // getDecks: return all of the decks along with their titles, questions, and answers.
 // getDeck: take in a single id argument and return the deck associated with that id.

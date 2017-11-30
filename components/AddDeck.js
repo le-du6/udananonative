@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
 import { Button, KeyboardAvoidingView, TextInput, TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
-import AddEntry from './AddEntry'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../reducers'
-import History from './History'
-import { TabNavigator, StackNavigator } from 'react-navigation'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
-import EntryDetail from './EntryDetail'
 import { getDeck, getDecks } from '../utils/_decksData'
 import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
@@ -32,35 +27,22 @@ class addDeck extends Component {
     input: ''
   }
   handleTextChange = (input) => {
-    console.log()
-    this.setState({ input }, x=>console.log(this.state.input) )
+    this.setState({ input },
+      x => console.log(this.state.input)
+    )
   }
   componentDidMount() {
-
-    // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
-
-    // getDeck(entryId)
-    // .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
-    // .then(()=> {
-    //   this.setState({ready: true})
-    // })
   }
   render() {
-    // // console.log('this.props.deck from addDeck: ', this.props.deck)
-    // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
-    // const title = (this.props.deck) ? this.props.deck.title : ''
-    // const questions = (this.props.deck['questions']) ? this.props.deck['questions'].map(x=>[x.answer, x.question]) : ''
     if (this.state.ready === false) {
       return <AppLoading />
     }
     return (
       <KeyboardAvoidingView>
         <View style={styles.decks} >
-
           <Text style={{color: '#828282',fontSize: 25, textAlign: 'center'}}>
             Enter a new deck name
           </Text>
-
           <View style={styles.inputText} >
             <TextInput
               value={this.state.input}
@@ -68,9 +50,7 @@ class addDeck extends Component {
               style={{fontSize: 30, textAlign: 'center', backgroundColor: white}}>
             </TextInput>
           </View>
-
           <SubmitBtn onPress={this.submit} />
-
         </View>
       </KeyboardAvoidingView>
       )
@@ -132,7 +112,6 @@ const styles = StyleSheet.create({
   },
 })
 
-// const mapStateToProps = decks => ({ decks })
-const mapStateToProps = deck => ({ deck })
+const mapStateToProps = state => ({ decks: state.decks })
 
 export default connect(mapStateToProps, )(addDeck)

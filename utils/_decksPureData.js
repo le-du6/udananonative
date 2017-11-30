@@ -2,10 +2,10 @@ export const initialDecks = {
   LearnIn20Hours: {
     title: 'Learn Anythink in 20 Hours!',
     questions: [
-      {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
-      },
+      // {
+      //   question: 'What is React?',
+      //   answer: 'A library for managing user interfaces'
+      // },
       // {
       //   question: 'What is React?',
       //   answer: 'A library for managing user interfaces'
