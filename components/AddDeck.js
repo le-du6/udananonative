@@ -36,6 +36,7 @@ class addDeck extends Component {
     this.setState({ input }, x=>console.log(this.state.input) )
   }
   componentDidMount() {
+
     // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
 
     // getDeck(entryId)
@@ -82,8 +83,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 7,
     height: 45,
-    marginLeft: 40,
-    marginRight: 40,
+    marginLeft: 80,
+    marginRight: 80,
   },
   AndroidSubmitBtn: {
     backgroundColor: beigePlus,
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     // flex: 1,
   },
   decks: {
+    // flex: 1,
     paddingTop: 50,
     paddingBottom: 50,
     marginTop: 15,
@@ -114,17 +116,18 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     // borderBottomColor: beigePlus,
     // borderBottomWidth: 5,
-    backgroundColor: '#FDFDFD'
+    // backgroundColor: red,
+    backgroundColor: '#FDFDFD',
   },
   inputText: {
     // paddingTop: 50,
     // paddingBottom: 50,
     marginTop: 25,
-    marginBottom: 25,
+    marginBottom: 35,
     marginRight: 45,
     marginLeft: 45,
     borderBottomColor: beigePlus,
-    borderBottomWidth: 5,
+    borderBottomWidth: 2,
     backgroundColor: '#FDFDFD'
   },
 })

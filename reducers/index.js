@@ -3,9 +3,9 @@ import {
   RECEIVE_ONE_DECK,
   ADD_ENTRY
  } from '../actions'
-// import { initialDecks } from '../utils/_decksPureData'
+import { initialDecks } from '../utils/_decksPureData'
 
-const decks = (state = { decks: init1['decks'].concat(init2.decks)}, action) => {
+const decks = (state = { decks: initialDecks}, action) => {
   switch (action.type) {
     case RECEIVE_DECKS :
       // console.log(state['decks'])

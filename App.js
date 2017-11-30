@@ -25,9 +25,10 @@ const UdaciStatusBar = ({backgroundColor, ...props}) => {
   )
 }
 const Tabs = TabNavigator({
-  Decks: {
+  AllDecks: {
     screen: viewDecks,
     navigationOptions: {
+      title: 'All Decks',
       tabBarLabel: 'DECKS',
       // tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
     },
@@ -35,6 +36,7 @@ const Tabs = TabNavigator({
   AddDeck: {
     screen: addDeck,
     navigationOptions: {
+      title: 'Add Deck',
       tabBarLabel: 'ADD DECK',
       // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
@@ -42,20 +44,12 @@ const Tabs = TabNavigator({
 },
 {
   navigationOptions: {
-    title: "All Decks",
     headerTitleStyle: {
-      // flex: 1,
       fontSize: 20,
-      // alignItems: "center",
-      // justifyContent: "center",
     },
-    headerRight: <Button title="Info" color={white} onPress={x=>x}/>,
+    // headerRight: <Button title="Info" color={white} onPress={x=>x}/>,
     headerTintColor: Platform.OS === 'ios' ? white : white,
     headerStyle: {
-      // flex: 1,
-      // fontSize: 30,
-      // alignItems: 'flex-start',
-      // justifyContent: "center",
       backgroundColor: Platform.OS === 'ios' ? deepBlue : deepBlue,
     },
   },
@@ -99,6 +93,7 @@ const MainNavigator = StackNavigator({
 export default class App extends React.Component {
   state = {
     ready: false,
+    title: 'Default',
   }
   componentDidMount() {
     setDecks(initialDecks);
