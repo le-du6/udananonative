@@ -18,44 +18,50 @@ import { receiveOneDeck, receiveDecks } from '../actions'
 class viewOneDeck extends Component {
   state = {
     ready: false,
+    entryId: 'no entryID',
+    title: 'no title',
   }
   componentDidMount() {
-
     getDeck(this.props.navigation.state.params.entryId)
     .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
     .then(()=> {
-      this.setState({ready: true})
+      // console.log('this.props.currentDeck from viewOneDeck: ', this.props)
+      // const {title = 'rien'} = this.props.currentDeck
+      this.setState({
+        ready: true,
+        entryId: this.props.navigation.state.params.entryId,
+        title: this.props.currentDeck.title
+      })
     })
   }
   render() {
-    // console.log('this.props.deck from viewOneDeck: ', this.props.deck)
-    const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
-    const title = (this.props.deck) ? this.props.deck.title : ''
-    const questions = (this.props.deck['questions']) ? this.props.deck['questions'].map(x=>[x.answer, x.question]) : ''
+    // const entryId = (this.props.navigation.state.params) ? this.props.navigation.state.params.entryId : 'void'
+    const title = (this.props.currentDeck) ? this.props.currentDeck.title : 'void title'
+    console.log(this.state.title)
+    // const questions = (this.props.currentDeck['questions']) ? this.props.currentDeck['questions'].map(x=>[x.answer, x.question]) : ''
+
     if (this.state.ready === false) {
       return <AppLoading />
     }
     return (
       <View>
-        {/* <TouchableOpacity style={styles.decks} onPress={() => navigation.navigate(
-        'AddEntry',
-        { entryId: item.title }
-        )} > */}
-        <Text style={{fontSize: 25, textAlign: 'center'}}>
-          { entryId }
-        </Text>
-        <Text style={{fontSize: 15, textAlign: 'center'}}>
-          { title }
-        </Text>
-        {questions.map((e,i) =>
+        <View style={styles.decks} >
+          <Text style={{fontSize: 25, textAlign: 'center'}}>
+            entryID: { this.state.entryId }
+          </Text>
+        </View>
+        <View style={styles.decks} >
+          <Text style={{fontSize: 25, textAlign: 'center'}}>
+            title: { this.state.title }
+          </Text>
+        </View>
+        {/* {questions.map((e,i) =>
           <View style={styles.decks} key={i} >
             <Text style={{fontSize: 20, paddingLeft: 20, paddingRight: 20}} >
               { e }
             </Text>
           </View>
-        )}
-
-        {/* </TouchableOpacity> */}
+        )} */}
       </View>
       )
   }
@@ -72,13 +78,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginRight: 15,
     marginLeft: 15,
-    borderLeftColor: beigeRed,
-    borderLeftWidth: 15,
+    borderLeftColor: beige,
+    borderLeftWidth: 4,
+    borderRightColor: beige,
+    borderRightWidth: 4,
     backgroundColor: '#FDFDFD'
   },
 })
 
 // const mapStateToProps = decks => ({ decks })
-const mapStateToProps = deck => ({ deck })
+const mapStateToProps = state => ({ currentDeck: state.currentDeck })
 
 export default connect(mapStateToProps, )(viewOneDeck)

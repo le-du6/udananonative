@@ -49,12 +49,14 @@ class viewDecks extends Component {
     ready: false,
   }
   componentDidMount() {
+    // console.log(this.props)
     getDecks()
       .then((decks) => this.props.dispatch(receiveDecks(decks)))
       .then(() => this.setState(() => ({ready: true})))
       .catch(() => this.setState(() => ({ready: true})))
   }
   render() {
+    console.log(this.props)
 
     if (this.state.ready === false) {
       return <AppLoading />

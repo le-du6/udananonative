@@ -1,7 +1,6 @@
 import {
   RECEIVE_DECKS,
   RECEIVE_ONE_DECK,
-  ADD_ENTRY
  } from '../actions'
 import { initialDecks } from '../utils/_decksPureData'
 
@@ -16,12 +15,7 @@ const decks = (state = { decks: initialDecks}, action) => {
     case RECEIVE_ONE_DECK :
       return {
         ...state,
-        ...action.deck
-      }
-    case ADD_ENTRY :
-      return {
-        ...state,
-        ...action.entry
+        currentDeck: {...action.deck}
       }
     default :
       return state
@@ -30,14 +24,14 @@ const decks = (state = { decks: initialDecks}, action) => {
 
 export default decks
 
-const init1 = {
-  decks: [
-    { key: 'A/B-Tests', title:'A/B Tests', nbQuestions: 2 },
-    { key: 'LearnIn20Hours', title:'Learn Anythink in 20 Hours!', nbQuestions: 3 },
-  ]
-}
-const init2 = {
-  decks: [
-    { key: 'monCul', title:'Mon Cul', nbQuestions: 20 },
-  ]
-}
+// const init1 = {
+//   decks: [
+//     { key: 'A/B-Tests', title:'A/B Tests', nbQuestions: 2 },
+//     { key: 'LearnIn20Hours', title:'Learn Anythink in 20 Hours!', nbQuestions: 3 },
+//   ]
+// }
+// const init2 = {
+//   decks: [
+//     { key: 'monCul', title:'Mon Cul', nbQuestions: 20 },
+//   ]
+// }
