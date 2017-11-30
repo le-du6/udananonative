@@ -1,5 +1,4 @@
 import { AsyncStorage } from 'react-native'
-import { getMetricMetaInfo, timeToString } from './helpers'
 export const DECKS_STORAGE_KEY = 'myPersoDecks:decks'
 
 export const setDecks = (data) => {
