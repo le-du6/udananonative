@@ -16,7 +16,7 @@ function SubmitBtn ({ onPress }) {
     <TouchableOpacity
       style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
       onPress={onPress}>
-        <Text style={styles.submitBtnText}>Add New Deck</Text>
+        <Text style={styles.submitBtnText}>Add Deck</Text>
     </TouchableOpacity>
   )
 }
@@ -28,14 +28,23 @@ class addDeck extends Component {
   }
   handleTextChange = (input) => {
     this.setState({ input }, x => {
-      console.log(this.state.input)
+      // console.log(this.state.input)
     })
   }
   submitNewDeck = (input) => {
-    console.log(input, this.state.input)
+    (input !== '') ? (
     saveDeckTitle(input)
-      .then((deck) => this.props.dispatch(saveDeck()))
-      .then(() => getDecks().then((decks) => this.props.dispatch(receiveDecks(decks))))
+      .then((deck) => {
+        this.props.dispatch(saveDeck())
+        this.setState({input: ''})
+      })
+      .then(() => getDecks()
+                    .then((decks) => {
+                      this.props.dispatch(receiveDecks(decks))
+                      this.props.navigation.navigate( 'AllDecks')
+                    }
+                  ))
+    ) : null
   }
   componentDidMount() {
   }

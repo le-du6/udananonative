@@ -14,7 +14,7 @@ const decks = (state = { decks: initialDecks}, action) => {
     case RECEIVE_DECKS :
       return {
         ...state,
-        decks: [...state['decks'], ...action.decks['decks']]
+        decks: [...action.decks['decks']]
       }
     case RECEIVE_ONE_DECK :
       return {
