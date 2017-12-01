@@ -5,10 +5,10 @@ import { Provider } from 'react-redux'
 import reducer from '../reducers'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 import { Constants } from 'expo'
-import { getDeck, getDecks } from '../utils/_decksData'
+import { getDeck, getDecks, saveDeckTitle } from '../utils/_decksData'
 import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
-import { receiveOneDeck, receiveDecks } from '../actions'
+import { receiveOneDeck, receiveDecks, saveDeck } from '../actions'
 import TextButton from './TextButton'
 
 function SubmitBtn ({ onPress }) {
@@ -27,9 +27,15 @@ class addDeck extends Component {
     input: ''
   }
   handleTextChange = (input) => {
-    this.setState({ input },
-      x => console.log(this.state.input)
-    )
+    this.setState({ input }, x => {
+      console.log(this.state.input)
+    })
+  }
+  submitNewDeck = (input) => {
+    console.log(input, this.state.input)
+    saveDeckTitle(input)
+      .then((deck) => this.props.dispatch(saveDeck()))
+      .then(() => getDecks().then((decks) => this.props.dispatch(receiveDecks(decks))))
   }
   componentDidMount() {
   }
@@ -50,12 +56,16 @@ class addDeck extends Component {
               style={{fontSize: 30, textAlign: 'center', backgroundColor: white}}>
             </TextInput>
           </View>
-          <SubmitBtn onPress={this.submit} />
+          <SubmitBtn onPress={()=>this.submitNewDeck(this.state.input)} />
         </View>
       </KeyboardAvoidingView>
       )
   }
 }
+
+const mapStateToProps = state => ({ decks: state.decks })
+
+export default connect(mapStateToProps, )(addDeck)
 
 const styles = StyleSheet.create({
   iosSubmitBtn: {
@@ -112,6 +122,3 @@ const styles = StyleSheet.create({
   },
 })
 
-const mapStateToProps = state => ({ decks: state.decks })
-
-export default connect(mapStateToProps, )(addDeck)

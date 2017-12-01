@@ -1,13 +1,17 @@
 import {
   RECEIVE_DECKS,
   RECEIVE_ONE_DECK,
+  SAVE_DECK,
  } from '../actions'
 import { initialDecks } from '../utils/_decksPureData'
 
 const decks = (state = { decks: initialDecks}, action) => {
   switch (action.type) {
+    case SAVE_DECK :
+      return {
+        ...state,
+      }
     case RECEIVE_DECKS :
-      // console.log(state['decks'])
       return {
         ...state,
         decks: [...state['decks'], ...action.decks['decks']]
