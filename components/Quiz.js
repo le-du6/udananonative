@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
+import { Button, TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../reducers'
@@ -27,6 +27,8 @@ class Quiz extends Component {
     deckId: 'no deckId',
     numCard: this.props.navigation.state.params.numCard || 0,
     score: this.props.navigation.state.params.score || 0,
+    isQuestion: true,
+    hadVoted: false,
   }
   componentDidMount() {
     console.log(this.props.navigation.state)
@@ -57,39 +59,41 @@ class Quiz extends Component {
             </Text>
           </View>
           <View style={styles.card} >
-            <Text style={{fontSize: 20, color: '#777777', textAlign: 'center'}}>
+            <Text style={{fontSize: 18, color: '#777777', textAlign: 'center'}}>
               Card n° { this.state.numCard + 1 } of {nb}
             </Text>
           </View>
-        <SubmitBtn text='Correct' color='#006400'
-          onPress={ () => this.props.navigation.navigate('Quiz',
-           {deckId: this.state.deckId, numCard: this.state.numCard + 1, score: this.state.score }
-           )}/>
-        <SubmitBtn text='Incorrect' color={red}
-          onPress={
-            x=>x
-            // () => this.props.navigation.navigate('AddCard', {deckId: this.state.deckId})
-          } />
 
-        {/* <View style={styles.decks} >
-          <Text style={{fontSize: 25, textAlign: 'center'}}>
-            entryID: { this.state.deckId }
-          </Text>
-        </View> */}
-        {/* {this.props.currentDeck.questions.map((e,i) =>
-          <View key={i}>
-            <View style={styles.decks}>
-              <Text style={{fontSize: 18, paddingLeft: 20, paddingRight: 20}}>
-                { e.question }
-              </Text>
+          {this.props.currentDeck.questions.filter((x,i)=>(i===this.state.numCard)).map((e,i) =>
+            <View key={i}>
+
+              {(this.state.isQuestion) ?
+              <View style={styles.QA}>
+                <Text style={{fontSize: 22, paddingLeft: 20, paddingRight: 20}}>
+                  { e.question }
+                </Text>
+              </View>
+              : <View style={styles.decks}>
+                <Text style={{fontSize: 22, paddingLeft: 20, paddingRight: 20}}>
+                  { e.answer }
+                </Text>
+              </View>
+              }
+
             </View>
-            <View style={styles.decks}>
-              <Text style={{fontSize: 18, paddingLeft: 20, paddingRight: 20}}>
-                { e.answer }
-              </Text>
-            </View>
-          </View>
-        )} */}
+          )}
+
+          <Button title="View Answer" color={purple} onPress={x=>x}/>
+
+          <SubmitBtn text='Correct' color='#006400'
+            onPress={ () => this.props.navigation.navigate('Quiz',
+            {deckId: this.state.deckId, numCard: this.state.numCard + 1, score: this.state.score,  }
+            )}/>
+          <SubmitBtn text='Incorrect' color={red}
+            onPress={
+              x=>x
+              // () => this.props.navigation.navigate('AddCard', {deckId: this.state.deckId})
+            } />
       </View>
       ) : (
         <View style={styles.decks} >
@@ -106,6 +110,19 @@ const mapStateToProps = ({ currentDeck }) => ({ currentDeck })
 export default connect(mapStateToProps, )(Quiz)
 
 const styles = StyleSheet.create({
+  QA: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginTop: 65,
+    marginBottom: 75,
+    marginRight: 40,
+    marginLeft: 40,
+    borderLeftColor: red,
+    borderLeftWidth: 8,
+    borderRightColor: red,
+    borderRightWidth: 8,
+    backgroundColor: '#FDFDFD'
+  },
   card: {
     paddingTop: 5,
     paddingBottom: 5,
