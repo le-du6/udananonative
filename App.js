@@ -73,8 +73,8 @@ const MainNavigator = StackNavigator({
   ViewOneDeck: {
     screen: viewOneDeck,
     navigationOptions: {
-      title: 'Deck ?',
-      // title: this.props.currentDeck,
+      title: 'Deck',
+      // title: this.props.currentDeck.title,
       headerTintColor: white,
       headerStyle: {
         backgroundColor: deepBlue,
@@ -98,8 +98,9 @@ export default class App extends React.Component {
     ready: false,
     title: 'Default',
   }
+
   componentWillMount() {
-    setDecks(initialDecks);
+    // setDecks(initialDecks);
   }
   render() {
     return (
@@ -114,9 +115,6 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  // },
   decks: {
     borderColor: red,
     paddingTop: 20,

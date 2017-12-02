@@ -11,12 +11,12 @@ import { connect } from 'react-redux'
 import { receiveOneDeck, receiveDecks } from '../actions'
 import AddCard from './AddCard'
 
-function SubmitBtn ({ onPress }) {
+function SubmitBtn ({ onPress, text, color }) {
   return (
     <TouchableOpacity
-      style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
+      style={Platform.OS === 'ios' ? [styles.iosSubmitBtn, {backgroundColor: color}] : [styles.AndroidSubmitBtn, {backgroundColor: color}]}
       onPress={onPress}>
-        <Text style={styles.submitBtnText}>Add Card</Text>
+        <Text style={styles.submitBtnText}>{text}</Text>
     </TouchableOpacity>
   )
 }
@@ -25,8 +25,6 @@ class viewOneDeck extends Component {
   state = {
     ready: false,
     entryId: 'no entryID',
-    title: 'no title',
-    questions: [],
   }
   componentDidMount() {
     getDeck(this.props.navigation.state.params.entryId)
@@ -40,28 +38,40 @@ class viewOneDeck extends Component {
     })
   }
   render() {
-    // console.log(this.state.title)
+    const { title = 'void', questions = [] } = (this.props.currentDeck) ? this.props.currentDeck : {}
+    const nb = questions.length
 
     if (this.state.ready === false) {
       return <AppLoading />
     }
+
     return (
       <View>
-        <SubmitBtn onPress={
-          // ()=>this.submitNewDeck(this.state.input)
+          <View style={styles.decks} >
+            <Text style={{fontSize: 25, textAlign: 'center'}}>
+              { title }
+            </Text>
+          </View>
+          <View style={styles.decks} >
+            <Text style={{fontSize: 25, textAlign: 'center'}}>
+              { nb } card{ (nb > 1) ? 's' : null }
+            </Text>
+          </View>
+        <SubmitBtn text='Start Quiz' color='#006400'
+          onPress={
           () => this.props.navigation.navigate('AddCard', {deckId: this.state.entryId})
           } />
-        <View style={styles.decks} >
+        <SubmitBtn text='Add Card' color={purple}
+          onPress={
+          () => this.props.navigation.navigate('AddCard', {deckId: this.state.entryId})
+          } />
+
+        {/* <View style={styles.decks} >
           <Text style={{fontSize: 25, textAlign: 'center'}}>
             entryID: { this.state.entryId }
           </Text>
-        </View>
-        <View style={styles.decks} >
-          <Text style={{fontSize: 25, textAlign: 'center'}}>
-            title: { this.state.currentDeck.title }
-          </Text>
-        </View>
-        {this.state.currentDeck.questions.map((e,i) =>
+        </View> */}
+        {/* {this.props.currentDeck.questions.map((e,i) =>
           <View key={i}>
             <View style={styles.decks}>
               <Text style={{fontSize: 18, paddingLeft: 20, paddingRight: 20}}>
@@ -74,7 +84,7 @@ class viewOneDeck extends Component {
               </Text>
             </View>
           </View>
-        )}
+        )} */}
       </View>
       )
   }
@@ -85,9 +95,6 @@ const mapStateToProps = ({ currentDeck }) => ({ currentDeck })
 export default connect(mapStateToProps, )(viewOneDeck)
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-  },
   decks: {
     paddingTop: 20,
     paddingBottom: 20,
@@ -95,23 +102,25 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginRight: 15,
     marginLeft: 15,
-    borderLeftColor: beige,
+    borderLeftColor: '#006400',
     borderLeftWidth: 4,
-    borderRightColor: beige,
+    borderRightColor: '#006400',
     borderRightWidth: 4,
     backgroundColor: '#FDFDFD'
   },
   iosSubmitBtn: {
-    backgroundColor: red,
     padding: 10,
+    marginTop: 30,
+    marginBottom: 30,
     borderRadius: 7,
     height: 45,
     marginLeft: 80,
     marginRight: 80,
   },
   AndroidSubmitBtn: {
-    backgroundColor: red,
     padding: 10,
+    paddingTop: 30,
+    paddingBottom: 30,
     paddingLeft: 30,
     paddingRight: 30,
     height: 45,
@@ -125,32 +134,5 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     textAlign: 'center',
-  },
-  // container: {
-  //   // flex: 1,
-  // },
-  // decks: {
-  //   // flex: 1,
-  //   paddingTop: 50,
-  //   paddingBottom: 50,
-  //   marginTop: 15,
-  //   marginBottom: 15,
-  //   marginRight: 15,
-  //   marginLeft: 15,
-  //   // borderBottomColor: beigePlus,
-  //   // borderBottomWidth: 5,
-  //   // backgroundColor: red,
-  //   backgroundColor: '#FDFDFD',
-  // },
-  inputText: {
-    // paddingTop: 50,
-    // paddingBottom: 50,
-    marginTop: 25,
-    marginBottom: 35,
-    marginRight: 45,
-    marginLeft: 45,
-    borderBottomColor: red,
-    borderBottomWidth: 2,
-    backgroundColor: '#FDFDFD'
   },
 })

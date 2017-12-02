@@ -40,8 +40,10 @@ class AddCard extends Component {
     })
   }
   submitNewCard = (card) => {
-    // (input.trim() !== '') ? (
-      addCardToDeck(this.props.navigation.state.params.deckId, card)
+    (card.question.trim() !== '' && card.answer.trim() !== '') ? (
+      addCardToDeck(this.props.navigation.state.params.deckId,
+        {question: card.question.trim(), answer: card.answer.trim()}
+      )
       .then((deck) => {
         this.props.dispatch(addCard())
         this.setState( {newCard: { question: '', answer: ''}})
@@ -55,10 +57,10 @@ class AddCard extends Component {
                     }))
                     .then(()=>this.props.navigation.goBack())
                 )
-    // ) : null
+    ) : null
   }
   componentDidMount() {
-    console.log( 'componentDidMount', this.props.navigation.state.params.deckId)
+    // console.log( 'componentDidMount', this.props.navigation.state.params.deckId)
   }
   render() {
     if (this.state.ready === false) {

@@ -20,7 +20,7 @@ const deckItem = ({ key, title, nbQuestions }, navigation) => {
         { title }
       </Text>
       <Text style={{fontSize: 15, textAlign: 'center'}}>
-        { nbQuestions } cards
+        { nbQuestions } card{ (nbQuestions > 1) ? 's' : null }
       </Text>
     </TouchableOpacity>
   )}
