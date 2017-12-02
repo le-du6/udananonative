@@ -22,13 +22,14 @@ function SubmitBtn ({ onPress, text, color }) {
 }
 
 class Quiz extends Component {
+
   state = {
     ready: false,
     deckId: 'no deckId',
+    isQuestion: this.props.navigation.state.params.isQuestion || true,
     numCard: this.props.navigation.state.params.numCard || 0,
     score: this.props.navigation.state.params.score || 0,
-    isQuestion: true,
-    hadVoted: false,
+    hadVoted: this.props.navigation.state.params.hadVoted || false,
   }
   componentDidMount() {
     console.log(this.props.navigation.state)
@@ -46,6 +47,7 @@ class Quiz extends Component {
   render() {
     const { title = 'void', questions = [] } = (this.props.currentDeck) ? this.props.currentDeck : {}
     const nb = questions.length
+    const {deckId, score, hadVoted, numCard, isQuestion} = this.state
 
     if (this.state.ready === false) {
       return <AppLoading />
@@ -67,7 +69,7 @@ class Quiz extends Component {
           {this.props.currentDeck.questions.filter((x,i)=>(i===this.state.numCard)).map((e,i) =>
             <View key={i}>
 
-              {(this.state.isQuestion) ?
+              {(isQuestion) ?
               <View style={styles.QA}>
                 <Text style={{fontSize: 22, paddingLeft: 20, paddingRight: 20}}>
                   { e.question }
@@ -83,12 +85,19 @@ class Quiz extends Component {
             </View>
           )}
 
-          <Button title="View Answer" color={purple} onPress={x=>x}/>
+          <Button title="View Answer" color={purple} onPress={
+              () => { (hadVoted) ?
+                this.props.navigation.navigate('Quiz', {isQuestion, deckId, score, hadVoted, numCard})
+                : null
+              }
+            }/>
 
           <SubmitBtn text='Correct' color='#006400'
-            onPress={ () => this.props.navigation.navigate('Quiz',
-            {deckId: this.state.deckId, numCard: this.state.numCard + 1, score: this.state.score,  }
-            )}/>
+            onPress={ () => {
+              this.setState({hadVoted: true, isQuestion: false}, () =>
+              this.props.navigation.navigate('Quiz', {isQuestion, numCard, score, deckId, hadVoted: this.state.hadVoted}))
+            }
+            }/>
           <SubmitBtn text='Incorrect' color={red}
             onPress={
               x=>x
@@ -137,8 +146,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FDFDFD'
   },
   decks: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
     marginTop: 5,
     marginBottom: 0,
     marginRight: 15,
