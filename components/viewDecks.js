@@ -51,7 +51,7 @@ class viewDecks extends Component {
       .catch(() => this.setState(() => ({ready: true})))
   }
   render() {
-    console.log(this.props)
+    // console.log(this.props)
 
     if (this.state.ready === false) {
       return <AppLoading />

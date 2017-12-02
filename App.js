@@ -7,6 +7,7 @@ import viewDecks from './components/viewDecks'
 import viewOneDeck from './components/viewOneDeck'
 import addDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
+import Quiz from "./components/Quiz"
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from './utils/colors'
 import { Constants } from 'expo'
@@ -88,6 +89,16 @@ const MainNavigator = StackNavigator({
       headerTintColor: white,
       headerStyle: {
         backgroundColor: deepBlue,
+      },
+    },
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Quiz',
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
       },
     },
   },

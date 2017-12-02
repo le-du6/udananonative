@@ -21,20 +21,22 @@ function SubmitBtn ({ onPress, text, color }) {
   )
 }
 
-class viewOneDeck extends Component {
+class Quiz extends Component {
   state = {
     ready: false,
-    entryId: 'no entryID',
-    numCard: 0,
-    score: 0,
+    deckId: 'no deckId',
+    numCard: this.props.navigation.state.params.numCard || 0,
+    score: this.props.navigation.state.params.score || 0,
   }
   componentDidMount() {
-    getDeck(this.props.navigation.state.params.entryId)
+    console.log(this.props.navigation.state)
+
+    getDeck(this.props.navigation.state.params.deckId)
     .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
     .then(()=> {
       this.setState({
         ready: true,
-        entryId: this.props.navigation.state.params.entryId,
+        deckId: this.props.navigation.state.params.deckId,
         currentDeck: this.props.currentDeck,
       })
     })
@@ -47,7 +49,7 @@ class viewOneDeck extends Component {
       return <AppLoading />
     }
 
-    return (
+    return (this.state.numCard < nb) ? (
       <View>
           <View style={styles.decks} >
             <Text style={{fontSize: 25, textAlign: 'center'}}>
@@ -56,21 +58,22 @@ class viewOneDeck extends Component {
           </View>
           <View style={styles.card} >
             <Text style={{fontSize: 20, color: '#777777', textAlign: 'center'}}>
-              { nb } card{ (nb > 1) ? 's' : null }
+              Card n° { this.state.numCard + 1 } of {nb}
             </Text>
           </View>
-        <SubmitBtn text='Start Quiz' color={middleBlue}
+        <SubmitBtn text='Correct' color='#006400'
+          onPress={ () => this.props.navigation.navigate('Quiz',
+           {deckId: this.state.deckId, numCard: this.state.numCard + 1, score: this.state.score }
+           )}/>
+        <SubmitBtn text='Incorrect' color={red}
           onPress={
-          () => this.props.navigation.navigate('Quiz', {deckId: this.state.entryId})
-          } />
-        <SubmitBtn text='Add Card' color={purple}
-          onPress={
-          () => this.props.navigation.navigate('AddCard', {deckId: this.state.entryId})
+            x=>x
+            // () => this.props.navigation.navigate('AddCard', {deckId: this.state.deckId})
           } />
 
         {/* <View style={styles.decks} >
           <Text style={{fontSize: 25, textAlign: 'center'}}>
-            entryID: { this.state.entryId }
+            entryID: { this.state.deckId }
           </Text>
         </View> */}
         {/* {this.props.currentDeck.questions.map((e,i) =>
@@ -88,20 +91,26 @@ class viewOneDeck extends Component {
           </View>
         )} */}
       </View>
+      ) : (
+        <View style={styles.decks} >
+          <Text style={{fontSize: 25, textAlign: 'center'}}>
+            Your score { this.state.score }
+          </Text>
+      </View>
       )
   }
 }
 
 // const mapStateToProps = state => ({ currentDeck: state.currentDeck })
 const mapStateToProps = ({ currentDeck }) => ({ currentDeck })
-export default connect(mapStateToProps, )(viewOneDeck)
+export default connect(mapStateToProps, )(Quiz)
 
 const styles = StyleSheet.create({
   card: {
     paddingTop: 5,
     paddingBottom: 5,
-    marginTop: 30,
-    marginBottom: 60,
+    marginTop: 15,
+    marginBottom: 0,
     marginRight: 80,
     marginLeft: 80,
     borderLeftColor: purple,
@@ -113,8 +122,8 @@ const styles = StyleSheet.create({
   decks: {
     paddingTop: 20,
     paddingBottom: 20,
-    marginTop: 50,
-    marginBottom: 5,
+    marginTop: 5,
+    marginBottom: 0,
     marginRight: 15,
     marginLeft: 15,
     borderLeftColor: middleBlue,

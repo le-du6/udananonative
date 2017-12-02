@@ -31,12 +31,12 @@ class AddCard extends Component {
   }
   handleTextChangeQ = (question) => {
     this.setState( { newCard: {...this.state.newCard, question} }, x => {
-      console.log(this.state.newCard)
+      // console.log(this.state.newCard)
     })
   }
   handleTextChangeA = (answer) => {
     this.setState( { newCard: {...this.state.newCard, answer} }, x => {
-      console.log(this.state.newCard)
+      // console.log(this.state.newCard)
     })
   }
   submitNewCard = (card) => {

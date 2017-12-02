@@ -15,7 +15,7 @@ export const addCardToDeck =(deckID, card) => {
 
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((data) => {
-      console.log(deckID, card)
+      // console.log(deckID, card)
       const decks = JSON.parse(data)
       const deck = decks[deckID]
       const { title, questions } = deck
