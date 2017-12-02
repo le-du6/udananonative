@@ -32,7 +32,7 @@ class addDeck extends Component {
     })
   }
   submitNewDeck = (input) => {
-    (input !== '') ? (
+    (input.trim() !== '') ? (
     saveDeckTitle(input)
       .then((deck) => {
         this.props.dispatch(saveDeck())
@@ -78,7 +78,7 @@ export default connect(mapStateToProps, )(addDeck)
 
 const styles = StyleSheet.create({
   iosSubmitBtn: {
-    backgroundColor: beigePlus,
+    backgroundColor: red,
     padding: 10,
     borderRadius: 7,
     height: 45,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     marginRight: 80,
   },
   AndroidSubmitBtn: {
-    backgroundColor: beigePlus,
+    backgroundColor: red,
     padding: 10,
     paddingLeft: 30,
     paddingRight: 30,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: 35,
     marginRight: 45,
     marginLeft: 45,
-    borderBottomColor: beigePlus,
+    borderBottomColor: red,
     borderBottomWidth: 2,
     backgroundColor: '#FDFDFD'
   },
