@@ -6,16 +6,33 @@ export const setDecks = (data) => {
   return data
 }
 
+// title = String
+// card = Object = {question: String, answer: String}
+export const addCardToDeck =(title, card) => {
+  // console.log('from addCardToDeck: ', title)
+  // const titleKey = title.trim().split(' ').join('')
+  // console.log('from after addCardToDeck: ', titleKey)
+
+  AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((data) => {
+      const decks = JSON.parse(data)
+      const deck = decks[title]
+      const { questions } = deck
+      AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+        [title]: { title, questions: [...questions, ...card] }
+      })).then(data => console.log('res from addCardToDeck: ', JSON.parse(data)))
+    })
+}
+
 export const saveDeckTitle =(title) => {
-  console.log('from saveDeckTitle: ', title)
+  // console.log('from saveDeckTitle: ', title)
   const titleKey = title.trim().split(' ').join('')
-  console.log('from after saveDeckTitle: ', titleKey)
+  // console.log('from after saveDeckTitle: ', titleKey)
 
   return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
     [titleKey]: { title: title.trim(), questions: [] }
   })).then(data=>console.log(JSON.parse(data)))
 }
-
 
 export const getDeck = (id) => {
   // console.log(id)

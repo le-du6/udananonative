@@ -6,6 +6,7 @@ import reducer from './reducers'
 import viewDecks from './components/viewDecks'
 import viewOneDeck from './components/viewOneDeck'
 import addDeck from './components/AddDeck'
+import AddCard from './components/AddCard'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from './utils/colors'
 import { Constants } from 'expo'
@@ -25,7 +26,6 @@ const Tabs = TabNavigator({
     navigationOptions: {
       title: 'All Decks',
       tabBarLabel: 'DECKS',
-      // tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
     },
   },
   AddDeck: {
@@ -33,7 +33,6 @@ const Tabs = TabNavigator({
     navigationOptions: {
       title: 'New Deck',
       tabBarLabel: 'NEW DECK',
-      // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
   },
 },
@@ -74,15 +73,24 @@ const MainNavigator = StackNavigator({
   ViewOneDeck: {
     screen: viewOneDeck,
     navigationOptions: {
+      title: 'Deck ?',
+      // title: this.props.currentDeck,
       headerTintColor: white,
       headerStyle: {
         backgroundColor: deepBlue,
       },
-    // header: null
-    // tabBarLabel: 'NEW DECK',
-      // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
-  }
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      title: 'New Card',
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: deepBlue,
+      },
+    },
+  },
 })
 
 export default class App extends React.Component {
@@ -106,9 +114,9 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  // container: {
+  //   flex: 1,
+  // },
   decks: {
     borderColor: red,
     paddingTop: 20,

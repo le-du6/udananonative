@@ -9,6 +9,17 @@ import { getDeck, getDecks } from '../utils/_decksData'
 import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
 import { receiveOneDeck, receiveDecks } from '../actions'
+import AddCard from './AddCard'
+
+function SubmitBtn ({ onPress }) {
+  return (
+    <TouchableOpacity
+      style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
+      onPress={onPress}>
+        <Text style={styles.submitBtnText}>Add Card</Text>
+    </TouchableOpacity>
+  )
+}
 
 class viewOneDeck extends Component {
   state = {
@@ -36,6 +47,10 @@ class viewOneDeck extends Component {
     }
     return (
       <View>
+        <SubmitBtn onPress={
+          // ()=>this.submitNewDeck(this.state.input)
+          () => this.props.navigation.navigate('AddCard')
+          } />
         <View style={styles.decks} >
           <Text style={{fontSize: 25, textAlign: 'center'}}>
             entryID: { this.state.entryId }
@@ -65,6 +80,9 @@ class viewOneDeck extends Component {
   }
 }
 
+const mapStateToProps = state => ({ currentDeck: state.currentDeck })
+export default connect(mapStateToProps, )(viewOneDeck)
+
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
@@ -82,9 +100,56 @@ const styles = StyleSheet.create({
     borderRightWidth: 4,
     backgroundColor: '#FDFDFD'
   },
+  iosSubmitBtn: {
+    backgroundColor: red,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 80,
+    marginRight: 80,
+  },
+  AndroidSubmitBtn: {
+    backgroundColor: red,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    height: 45,
+    borderRadius: 2,
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitBtnText: {
+    color: white,
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: 'center',
+  },
+  // container: {
+  //   // flex: 1,
+  // },
+  // decks: {
+  //   // flex: 1,
+  //   paddingTop: 50,
+  //   paddingBottom: 50,
+  //   marginTop: 15,
+  //   marginBottom: 15,
+  //   marginRight: 15,
+  //   marginLeft: 15,
+  //   // borderBottomColor: beigePlus,
+  //   // borderBottomWidth: 5,
+  //   // backgroundColor: red,
+  //   backgroundColor: '#FDFDFD',
+  // },
+  inputText: {
+    // paddingTop: 50,
+    // paddingBottom: 50,
+    marginTop: 25,
+    marginBottom: 35,
+    marginRight: 45,
+    marginLeft: 45,
+    borderBottomColor: red,
+    borderBottomWidth: 2,
+    backgroundColor: '#FDFDFD'
+  },
 })
-
-// const mapStateToProps = decks => ({ decks })
-const mapStateToProps = state => ({ currentDeck: state.currentDeck })
-
-export default connect(mapStateToProps, )(viewOneDeck)
