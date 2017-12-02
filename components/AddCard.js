@@ -5,10 +5,10 @@ import { Provider } from 'react-redux'
 import reducer from '../reducers'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 import { Constants } from 'expo'
-import { getDeck, getDecks, saveDeckTitle } from '../utils/_decksData'
+import { getDeck, getDecks, saveDeckTitle, addCardToDeck } from '../utils/_decksData'
 import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
-import { receiveOneDeck, receiveDecks, saveDeck } from '../actions'
+import { receiveOneDeck, receiveDecks, saveDeck, addCard } from '../actions'
 import TextButton from './TextButton'
 
 function SubmitBtn ({ onPress }) {
@@ -24,29 +24,41 @@ function SubmitBtn ({ onPress }) {
 class AddCard extends Component {
   state = {
     ready: true,
-    input: ''
+    newCard: {
+      question: '',
+      answer: '',
+    },
   }
-  handleTextChange = (input) => {
-    this.setState({ input }, x => {
-      // console.log(this.state.input)
+  handleTextChangeQ = (question) => {
+    this.setState( { newCard: {...this.state.newCard, question} }, x => {
+      console.log(this.state.newCard)
     })
   }
-  submitNewDeck = (input) => {
-    (input.trim() !== '') ? (
-    saveDeckTitle(input)
+  handleTextChangeA = (answer) => {
+    this.setState( { newCard: {...this.state.newCard, answer} }, x => {
+      console.log(this.state.newCard)
+    })
+  }
+  submitNewCard = (card) => {
+    // (input.trim() !== '') ? (
+      addCardToDeck(this.props.navigation.state.params.deckId, card)
       .then((deck) => {
-        this.props.dispatch(saveDeck())
-        this.setState({input: ''})
+        this.props.dispatch(addCard())
+        this.setState( {newCard: { question: '', answer: ''}})
       })
       .then(() => getDecks()
-                    .then((decks) => {
-                      this.props.dispatch(receiveDecks(decks))
-                      this.props.navigation.navigate( 'AllDecks')
-                    }
-                  ))
-    ) : null
+                    .then((decks) => this.props.dispatch(receiveDecks(decks)))
+                    .then(() => getDeck(this.props.navigation.state.params.deckId)
+                    .then((deck) => {
+                      this.props.dispatch(receiveOneDeck(deck))
+
+                    }))
+                    .then(()=>this.props.navigation.goBack())
+                )
+    // ) : null
   }
   componentDidMount() {
+    console.log( 'componentDidMount', this.props.navigation.state.params.deckId)
   }
   render() {
     if (this.state.ready === false) {
@@ -60,8 +72,8 @@ class AddCard extends Component {
           </Text>
           <View style={styles.inputText} >
             <TextInput
-              value={this.state.input}
-              onChangeText={this.handleTextChange}
+              value={this.state.newCard.question}
+              onChangeText={this.handleTextChangeQ}
               style={{fontSize: 20, textAlign: 'center', backgroundColor: white}}>
             </TextInput>
           </View>
@@ -71,15 +83,15 @@ class AddCard extends Component {
           </Text>
           <View style={styles.inputText} >
             <TextInput
-              value={this.state.input}
-              onChangeText={this.handleTextChange}
+              value={this.state.newCard.answer}
+              onChangeText={this.handleTextChangeA}
               style={{fontSize: 20, textAlign: 'center', backgroundColor: white}}>
             </TextInput>
           </View>
 
           <SubmitBtn onPress={
-            // ()=>this.submitNewDeck(this.state.input)
-            () => this.props.navigation.navigate('AddCard')
+            ()=>this.submitNewCard(this.state.newCard)
+            // () => this.props.navigation.navigate('AddCard')
             } />
         </View>
       </KeyboardAvoidingView>
@@ -87,7 +99,7 @@ class AddCard extends Component {
   }
 }
 
-const mapStateToProps = state => ({ decks: state.decks })
+const mapStateToProps = ({decks, currentDeck}) => ({decks, currentDeck})
 export default connect(mapStateToProps, )(AddCard)
 
 const styles = StyleSheet.create({

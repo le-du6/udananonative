@@ -8,19 +8,20 @@ export const setDecks = (data) => {
 
 // title = String
 // card = Object = {question: String, answer: String}
-export const addCardToDeck =(title, card) => {
+export const addCardToDeck =(deckID, card) => {
   // console.log('from addCardToDeck: ', title)
   // const titleKey = title.trim().split(' ').join('')
   // console.log('from after addCardToDeck: ', titleKey)
 
-  AsyncStorage.getItem(DECKS_STORAGE_KEY)
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((data) => {
+      console.log(deckID, card)
       const decks = JSON.parse(data)
-      const deck = decks[title]
-      const { questions } = deck
-      AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
-        [title]: { title, questions: [...questions, ...card] }
-      })).then(data => console.log('res from addCardToDeck: ', JSON.parse(data)))
+      const deck = decks[deckID]
+      const { title, questions } = deck
+      return AsyncStorage.mergeItem(DECKS_STORAGE_KEY,JSON.stringify(
+        { [deckID]: { title, questions: [...questions, card] } }
+      )).then(data => console.log('res from addCardToDeck: ', JSON.parse(data)))
     })
 }
 

@@ -40,7 +40,7 @@ class viewOneDeck extends Component {
     })
   }
   render() {
-    console.log(this.state.title)
+    // console.log(this.state.title)
 
     if (this.state.ready === false) {
       return <AppLoading />
@@ -49,7 +49,7 @@ class viewOneDeck extends Component {
       <View>
         <SubmitBtn onPress={
           // ()=>this.submitNewDeck(this.state.input)
-          () => this.props.navigation.navigate('AddCard')
+          () => this.props.navigation.navigate('AddCard', {deckId: this.state.entryId})
           } />
         <View style={styles.decks} >
           <Text style={{fontSize: 25, textAlign: 'center'}}>
@@ -80,7 +80,8 @@ class viewOneDeck extends Component {
   }
 }
 
-const mapStateToProps = state => ({ currentDeck: state.currentDeck })
+// const mapStateToProps = state => ({ currentDeck: state.currentDeck })
+const mapStateToProps = ({ currentDeck }) => ({ currentDeck })
 export default connect(mapStateToProps, )(viewOneDeck)
 
 const styles = StyleSheet.create({
