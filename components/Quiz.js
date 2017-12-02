@@ -22,6 +22,7 @@ function SubmitBtn ({ onPress, text, color }) {
 }
 
 class Quiz extends Component {
+  // const {deckId, score, hadVoted, numCard, isQuestion} = this.state
 
   state = {
     ready: false,
