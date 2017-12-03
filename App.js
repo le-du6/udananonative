@@ -11,7 +11,7 @@ import Quiz from "./components/Quiz"
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from './utils/colors'
 import { Constants } from 'expo'
-import { setDecks } from './utils/_decksData'
+import { setDecks } from './utils/_api'
 import { initialDecks } from './utils/_decksPureData'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {

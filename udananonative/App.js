@@ -12,7 +12,7 @@ import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } 
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './components/EntryDetail'
-import { getDecks2 } from './utils/_decksData'
+import { getDecks2 } from './utils/_api'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {
   return (

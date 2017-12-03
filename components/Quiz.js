@@ -5,7 +5,7 @@ import { Provider, connect } from 'react-redux'
 import { AppLoading, Constants } from 'expo'
 import { receiveOneDeck, receiveDecks } from '../actions'
 import reducer from '../reducers'
-import { getDeck, getDecks } from '../utils/_decksData'
+import { getDeck, getDecks } from '../utils/_api'
 import { deepGreen, deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 
 const SubmitBtn = ({ onPress, text, color }) => {
