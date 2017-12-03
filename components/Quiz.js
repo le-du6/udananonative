@@ -6,6 +6,8 @@ import { AppLoading, Constants } from 'expo'
 import { receiveOneDeck, receiveDecks } from '../actions'
 import reducer from '../reducers'
 import { getDeck, getDecks } from '../utils/_api'
+import { setLocalNotification, clearLocalNotification } from '../utils/_api'
+
 import { deepGreen, deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 
 const SubmitBtn = ({ onPress, text, color }) => {
@@ -152,10 +154,16 @@ class Quiz extends Component {
             </Text>)
           )}
           <SubmitBtn text='Play Again' color={deepGreen}
-            onPress={() => this.props.navigation.navigate('Quiz', { deckId, replay: replay + 1 })}
+            onPress={() => {
+              clearLocalNotification().then(setLocalNotification)
+              this.props.navigation.navigate('Quiz', { deckId, replay: replay + 1 })}
+            }
             />
           <SubmitBtn text='Back to Deck' color={purple}
-            onPress={() => this.props.navigation.goBack(keying(initialKey, nb, replay))}
+            onPress={() => {
+              clearLocalNotification().then(setLocalNotification)
+              this.props.navigation.goBack(keying(initialKey, nb, replay))}
+            }
             />
         </View>
       )

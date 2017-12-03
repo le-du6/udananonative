@@ -13,6 +13,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './components/EntryDetail'
 import { getDecks2 } from './utils/_api'
+import { clearLocalNotification, setLocalNotification } from './utils/_api'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {
   return (
@@ -93,7 +94,7 @@ export default class App extends React.Component {
     ready: false,
   }
   componentDidMount() {
-
+    clearLocalNotification().then(setLocalNotification)
   }
   render() {
     return (

@@ -4,11 +4,11 @@ import { Notifications, Permissions } from 'expo'
 export const DECKS_STORAGE_KEY = 'myPersoDecks:decks'
 export const NOTIFICATION_KEY = 'myPersoDecks:NOTIFICATION_KEY'
 
-export const getDailyReminderValue = () => {
-  return {
-    today: "👋 Don't forget to train your prefered Deck!"
-  }
-}
+// export const getDailyReminderValue = () => {
+//   return {
+//     today: "👋 Don't forget to train your prefered Deck!"
+//   }
+// }
 
 export const timeToString = (time = Date.now()) => {
   const date = new Date(time)
@@ -48,9 +48,12 @@ export const setLocalNotification = () => {
               Notifications.cancelAllScheduledNotificationsAsync()
 
               let tomorrow = new Date()
-              tomorrow.setDate(tomorrow.getDate() + 1)
-              tomorrow.setHours(20)
-              tomorrow.setMinutes(0)
+              // tomorrow.setDate(tomorrow.getDate() + 1)
+              tomorrow.setDate(tomorrow.getDate())
+              // tomorrow.setHours(12)
+              // tomorrow.setMinutes(0)
+              tomorrow.setHours(tomorrow.getHours())
+              tomorrow.setMinutes(tomorrow.getMinutes() + 1)
 
               Notifications.scheduleLocalNotificationAsync(
                 createNotification(),
