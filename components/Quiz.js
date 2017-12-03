@@ -9,9 +9,8 @@ import { getDeck, getDecks } from '../utils/_decksData'
 import { AppLoading } from 'expo'
 import { connect } from 'react-redux'
 import { receiveOneDeck, receiveDecks } from '../actions'
-// import AddCard from './AddCard'
 
-function SubmitBtn ({ onPress, text, color }) {
+const SubmitBtn = ({ onPress, text, color }) => {
   return (
     <TouchableOpacity
       style={Platform.OS === 'ios' ? [styles.iosSubmitBtn, {backgroundColor: color}] : [styles.AndroidSubmitBtn, {backgroundColor: color}]}
@@ -19,6 +18,14 @@ function SubmitBtn ({ onPress, text, color }) {
         <Text style={styles.submitBtnText}>{text}</Text>
     </TouchableOpacity>
   )
+}
+
+const onPressQorA = (navigation, isAnswer, hadVoted, deckId, score, numCard) => {
+  (hadVoted && isAnswer)
+    ? (hadVoted && isAnswer)
+        ? navigation.navigate('Quiz', { isAnswer: true, deckId, score, hadVoted, numCard })
+        : navigation.goBack()
+    : null
 }
 
 class Quiz extends Component {
@@ -48,7 +55,9 @@ class Quiz extends Component {
   render() {
     const { title = 'void', questions = [] } = (this.props.currentDeck) ? this.props.currentDeck : {}
     const nb = questions.length
-    const {deckId, score, hadVoted, numCard, isAnswer} = this.state
+    const { deckId, score, hadVoted, numCard, isAnswer } = this.state
+    const { navigation } = this.props
+
     console.log('Componente State: ', this.state)
     console.log('Navigation STATE: ', this.props.navigation.state)
 
@@ -88,13 +97,11 @@ class Quiz extends Component {
             </View>
           )}
 
-          <Button title="View Answer" color={purple} onPress={
-              () => { (hadVoted) ?
-                this.props.navigation.navigate('Quiz', { isAnswer: true, deckId, score, hadVoted, numCard })
-                // this.props.navigation.navigate('Quiz', {isAnswer, deckId, score, hadVoted, numCard})
-                : null
-              }
-            }/>
+          <Button
+            title={(!isAnswer) ? "View Answer" : "View Question"}
+            color={purple}
+            onPress={() => onPressQorA(navigation, isAnswer, hadVoted, deckId, score, numCard)}
+            />
 
           <SubmitBtn text='Correct' color='#006400'
             onPress={ () => {

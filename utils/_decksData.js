@@ -1,21 +1,80 @@
 import { AsyncStorage } from 'react-native'
+import { Notifications, Permissions } from 'expo'
+
 export const DECKS_STORAGE_KEY = 'myPersoDecks:decks'
+export const NOTIFICATION_KEY = 'myPersoDecks:NOTIFICATION_KEY'
+
+export const getDailyReminderValue = () => {
+  return {
+    today: "👋 Don't forget to train your prefered Deck!"
+  }
+}
+
+export const timeToString = (time = Date.now()) => {
+  const date = new Date(time)
+  const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  return todayUTC.toISOString().split('T')[0]
+}
+
+export const clearLocalNotification = () => {
+  return AsyncStorage.removeItem(NOTIFICATION_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+const createNotification = () => {
+  return {
+    title: 'Train yourself with Cards Deck!',
+    body: "👋 Don't forget to train your prefered Deck!",
+    ios: {
+      sound: true,
+    },
+    android: {
+      sound: true,
+      priority: 'high',
+      sticky: false,
+      vibrate: true,
+    }
+  }
+}
+
+export const setLocalNotification = () => {
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS)
+          .then(({ status }) => {
+            if (status === 'granted') {
+              Notifications.cancelAllScheduledNotificationsAsync()
+
+              let tomorrow = new Date()
+              tomorrow.setDate(tomorrow.getDate() + 1)
+              tomorrow.setHours(20)
+              tomorrow.setMinutes(0)
+
+              Notifications.scheduleLocalNotificationAsync(
+                createNotification(),
+                {
+                  time: tomorrow,
+                  repeat: 'day',
+                }
+              )
+
+              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+            }
+          })
+      }
+    })
+}
 
 export const setDecks = (data) => {
   AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
   return data
 }
 
-// title = String
-// card = Object = {question: String, answer: String}
 export const addCardToDeck =(deckID, card) => {
-  // console.log('from addCardToDeck: ', title)
-  // const titleKey = title.trim().split(' ').join('')
-  // console.log('from after addCardToDeck: ', titleKey)
-
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((data) => {
-      // console.log(deckID, card)
       const decks = JSON.parse(data)
       const deck = decks[deckID]
       const { title, questions } = deck
@@ -26,21 +85,16 @@ export const addCardToDeck =(deckID, card) => {
 }
 
 export const saveDeckTitle =(title) => {
-  // console.log('from saveDeckTitle: ', title)
   const titleKey = title.trim().split(' ').join('')
-  // console.log('from after saveDeckTitle: ', titleKey)
-
   return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
     [titleKey]: { title: title.trim(), questions: [] }
   })).then(data=>console.log(JSON.parse(data)))
 }
 
 export const getDeck = (id) => {
-  // console.log(id)
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
   .then((data) => {
     const res = JSON.parse(data)
-    // console.log('res: ', res[id])
     return res[id]
   })
   .catch((err) => {

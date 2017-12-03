@@ -36,4 +36,6 @@ i => for iOS simulation
 ## App, React Native and Redux context
 > *App has only been fully test on a real iPhone iOS with Expo*
 
+BEWARE : when using the app, you can't view an answer before respond to the question with the "Correct" or "Incorrect" buttons.
+
 Somme dummy Decks and Cards are provided as statup
