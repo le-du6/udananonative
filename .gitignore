@@ -9,6 +9,9 @@
 # trash
 /trash
 
+# mockup-images
+/mockup-images
+
 # misc
 .env.local
 .env.development.local
