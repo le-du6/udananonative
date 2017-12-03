@@ -14,7 +14,7 @@ Go inside the cloning directory:
  cd udananonative
  ```
 
-## Step 1 - Starting the React Native App
+## Steps - Starting the React Native App
 
  Then install the needed modules with the command:
  ``` shell
@@ -26,7 +26,7 @@ Don't forget to start the processus with:
  npm start
  ```
 
-To work correctly with Expo - follow the CRNA instructions:
+To work correctly with CRNA and Expo - follow the instructions:
 ``` js
 R => to refresh and clean cache
 a => for Androis simulation
