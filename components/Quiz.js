@@ -137,28 +137,28 @@ class Quiz extends Component {
       </View>
       ) : (
         <View style={styles.decks} >
-          <Text style={{fontSize: 25, textAlign: 'center'}}>
-            Your score is { scoring(this.state.score) }
+          <Text style={{fontSize: 25, textAlign: 'center', paddingBottom: 30}}>
+            Your score is { scoring(this.state.score).filter(x=>(x === true)).length }
           </Text>
+          {scoring(this.state.score).map((x, i) => (
+            <Text key={i} style={{fontSize: 18, textAlign: 'left', paddingLeft: 20}}>
+                Question n° {i} is {x.toString()}
+            </Text>)
+          )}
       </View>
       )
   }
 }
 
-  // 16:24:22:     "score": Object {
-  // 16:24:22:       "0-a": "correct",
-  // 16:24:22:       "0-q": "correct",
-  // 16:24:22:       "1-a": "correct",
-  // 16:24:22:       "1-q": "correct",
-  // 16:24:22:     },
 const scoring = (scoreObj) => {
-  // let res = 0
-  const res = Object.keys(scoreObj)//.filter((x,i) => (x[0] == i))
-  // const res = Object.keys(scoreObj).map((x,i) => x)
-  return res.join(' ')
+    const res = Object.keys(scoreObj)
+      .reduce((acc, x) => {
+        return { ...acc, [x[0]]: (acc[x[0]]) ? [acc[x[0]]].concat(scoreObj[x]) : scoreObj[x] }
+      }, {})
+
+    return Object.keys(res).map(x => res[x][0] === res[x][1])
 }
 
-// const mapStateToProps = state => ({ currentDeck: state.currentDeck })
 const mapStateToProps = ({ currentDeck }) => ({ currentDeck })
 export default connect(mapStateToProps, )(Quiz)
 
