@@ -36,7 +36,7 @@ class Quiz extends Component {
     deckId: 'no deckId',
     isAnswer: this.props.navigation.state.params.isAnswer,
     numCard: this.props.navigation.state.params.numCard || 0,
-    score: this.props.navigation.state.params.score || 0,
+    score: this.props.navigation.state.params.score || {},
     hadVoted: this.props.navigation.state.params.hadVoted || false,
   }
   componentDidMount() {
@@ -106,27 +106,56 @@ class Quiz extends Component {
             onPress={() => onPressQorA(navigation, isAnswer, hadVoted, deckId, score, numCard)}
             />
 
-          <SubmitBtn text='Correct' color='#006400'
+          <SubmitBtn text='Correct' color={deepGreen}
             onPress={ () => {
-              this.setState( { hadVoted: true },
-                // () => this.props.navigation.navigate('Quiz', {isAnswer, numCard, score, deckId, hadVoted: this.state.hadVoted})
-              )
+              (!isAnswer)
+                ? this.setState( { score: { ...score, [numCard+'-q']: 'correct' }, hadVoted: true })
+                : this.setState( { score: { ...score, [numCard+'-a']: 'correct' } },
+                    () => this.props.navigation.navigate('Quiz', {
+                      hadVoted: false,
+                      isAnswer: false,
+                      numCard: numCard + 1,
+                      score: this.state.score, deckId
+                    })
+                  )
             }
             }/>
           <SubmitBtn text='Incorrect' color={red}
-            onPress={
-              x=>x
-              // () => this.props.navigation.navigate('AddCard', {deckId: this.state.deckId})
-            } />
+            onPress={ () => {
+              (!isAnswer)
+                ? this.setState( { score: { ...score, [numCard+'-q']: 'incorrect' }, hadVoted: true })
+                : this.setState( { score: { ...score, [numCard+'-a']: 'incorrect' } },
+                    () => this.props.navigation.navigate('Quiz', {
+                      hadVoted: false,
+                      isAnswer: false,
+                      numCard: numCard + 1,
+                      score: this.state.score, deckId
+                    })
+                  )
+            }
+            }/>
       </View>
       ) : (
         <View style={styles.decks} >
           <Text style={{fontSize: 25, textAlign: 'center'}}>
-            Your score { this.state.score }
+            Your score is { scoring(this.state.score) }
           </Text>
       </View>
       )
   }
+}
+
+  // 16:24:22:     "score": Object {
+  // 16:24:22:       "0-a": "correct",
+  // 16:24:22:       "0-q": "correct",
+  // 16:24:22:       "1-a": "correct",
+  // 16:24:22:       "1-q": "correct",
+  // 16:24:22:     },
+const scoring = (scoreObj) => {
+  // let res = 0
+  const res = Object.keys(scoreObj)//.filter((x,i) => (x[0] == i))
+  // const res = Object.keys(scoreObj).map((x,i) => x)
+  return res.join(' ')
 }
 
 // const mapStateToProps = state => ({ currentDeck: state.currentDeck })
