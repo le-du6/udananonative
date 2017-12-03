@@ -67,26 +67,6 @@ class viewOneDeck extends Component {
           onPress={
           () => this.props.navigation.navigate('AddCard', {deckId: this.state.entryId})
           } />
-
-        {/* <View style={styles.decks} >
-          <Text style={{fontSize: 25, textAlign: 'center'}}>
-            entryID: { this.state.entryId }
-          </Text>
-        </View> */}
-        {/* {this.props.currentDeck.questions.map((e,i) =>
-          <View key={i}>
-            <View style={styles.decks}>
-              <Text style={{fontSize: 18, paddingLeft: 20, paddingRight: 20}}>
-                { e.question }
-              </Text>
-            </View>
-            <View style={styles.decks}>
-              <Text style={{fontSize: 18, paddingLeft: 20, paddingRight: 20}}>
-                { e.answer }
-              </Text>
-            </View>
-          </View>
-        )} */}
       </View>
       )
   }

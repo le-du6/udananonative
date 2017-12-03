@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { Button, TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
 import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import reducer from '../reducers'
-import { deepGreen, deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
-import { Constants } from 'expo'
-import { getDeck, getDecks } from '../utils/_decksData'
-import { AppLoading } from 'expo'
-import { connect } from 'react-redux'
+import { Provider, connect } from 'react-redux'
+import { AppLoading, Constants } from 'expo'
 import { receiveOneDeck, receiveDecks } from '../actions'
+import reducer from '../reducers'
+import { getDeck, getDecks } from '../utils/_decksData'
+import { deepGreen, deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 
 const SubmitBtn = ({ onPress, text, color }) => {
   return (
@@ -20,18 +18,18 @@ const SubmitBtn = ({ onPress, text, color }) => {
   )
 }
 
-const onPressQorA = (navigation, isAnswer, hadVoted, deckId, score, numCard) => {
+const onPressQorA = (navigation, isAnswer, hadVoted, deckId, score, numCard, replay) => {
   (hadVoted)
     ? (!isAnswer)
-        ? navigation.navigate('Quiz', { isAnswer: true, deckId, score, hadVoted, numCard })
+        ? navigation.navigate('Quiz', { isAnswer: true, deckId, score, hadVoted, numCard, replay })
         : navigation.goBack()
     : null
 }
 
 class Quiz extends Component {
-  // const {deckId, score, hadVoted, numCard, isAnswer} = this.state
-
   state = {
+    replay: this.props.navigation.state.params.replay || 1,
+    initialKey: null,
     ready: false,
     deckId: 'no deckId',
     isAnswer: this.props.navigation.state.params.isAnswer,
@@ -40,7 +38,7 @@ class Quiz extends Component {
     hadVoted: this.props.navigation.state.params.hadVoted || false,
   }
   componentDidMount() {
-    console.log(this.props.navigation.state)
+    this.setState({initialKey: this.props.navigation.state.key})
 
     getDeck(this.props.navigation.state.params.deckId)
     .then((deck) => this.props.dispatch(receiveOneDeck(deck)))
@@ -55,11 +53,13 @@ class Quiz extends Component {
   render() {
     const { title = 'void', questions = [] } = (this.props.currentDeck) ? this.props.currentDeck : {}
     const nb = questions.length
-    const { deckId, score, hadVoted, numCard, isAnswer } = this.state
+    const { replay, initialKey, deckId, score, hadVoted, numCard, isAnswer } = this.state
     const { navigation } = this.props
 
-    console.log('Componente State: ', this.state)
-    console.log('Navigation STATE: ', this.props.navigation.state)
+    // console.log('Componente State: ', this.state)
+    // console.log('Navigation STATE: ', this.props.navigation.state)
+    console.log('initialKey: ', this.state.initialKey)
+    console.log('replay: ', this.state.replay)
 
     if (this.state.ready === false) {
       return <AppLoading />
@@ -101,9 +101,13 @@ class Quiz extends Component {
           )}
 
           <Button
-            title={(!isAnswer) ? "View Answer" : "View Question"}
+            title={(!isAnswer)
+                      ? (hadVoted)
+                        ? "View Answer"
+                        : "View Answer (Vote before!)"
+                      : "Back to the Question"}
             color={purple}
-            onPress={() => onPressQorA(navigation, isAnswer, hadVoted, deckId, score, numCard)}
+            onPress={() => onPressQorA(navigation, isAnswer, hadVoted, deckId, score, numCard, replay)}
             />
 
           <SubmitBtn text='Correct' color={deepGreen}
@@ -115,7 +119,8 @@ class Quiz extends Component {
                       hadVoted: false,
                       isAnswer: false,
                       numCard: numCard + 1,
-                      score: this.state.score, deckId
+                      score: this.state.score, deckId,
+                      replay
                     })
                   )
             }
@@ -129,7 +134,8 @@ class Quiz extends Component {
                       hadVoted: false,
                       isAnswer: false,
                       numCard: numCard + 1,
-                      score: this.state.score, deckId
+                      score: this.state.score, deckId,
+                      replay
                     })
                   )
             }
@@ -138,16 +144,30 @@ class Quiz extends Component {
       ) : (
         <View style={styles.decks} >
           <Text style={{fontSize: 25, textAlign: 'center', paddingBottom: 30}}>
-            Your score is { scoring(this.state.score).filter(x=>(x === true)).length }
+            Your score is { scoring(this.state.score).filter(x=>(x === true)).length }/{nb}
           </Text>
           {scoring(this.state.score).map((x, i) => (
             <Text key={i} style={{fontSize: 18, textAlign: 'left', paddingLeft: 20}}>
-                Question n° {i} is {x.toString()}
+                Answer n° {i} is {(x) ? 'Correct' : 'Incorrect'}
             </Text>)
           )}
-      </View>
+          <SubmitBtn text='Play Again' color={deepGreen}
+            onPress={() => this.props.navigation.navigate('Quiz', { deckId, replay: replay + 1 })}
+            />
+          <SubmitBtn text='Back to Deck' color={purple}
+            onPress={() => this.props.navigation.goBack(keying(initialKey, nb, replay))}
+            />
+        </View>
       )
   }
+}
+
+const keying = (key, nbCards, replay) => {
+  const keySuffix = key.split('-').slice(-1)
+  const keyPrefix = key.split('-').slice(0,-1).join('-')
+  const page = parseInt(keySuffix[0], 10) - (nbCards*2*replay) - (replay-1)
+  // console.log('key: ', keyPrefix + '-' + page.toString())
+  return keyPrefix + '-' + page.toString()
 }
 
 const scoring = (scoreObj) => {
@@ -170,9 +190,7 @@ const styles = StyleSheet.create({
     marginBottom: 75,
     marginRight: 40,
     marginLeft: 40,
-    // borderLeftColor: red,
     borderLeftWidth: 8,
-    // borderRightColor: red,
     borderRightWidth: 8,
     backgroundColor: '#FDFDFD'
   },
@@ -198,8 +216,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     borderLeftColor: middleBlue,
     borderLeftWidth: 15,
-    // borderRightColor: '#006400',
-    // borderRightWidth: 4,
     backgroundColor: '#FDFDFD'
   },
   iosSubmitBtn: {
@@ -225,7 +241,7 @@ const styles = StyleSheet.create({
   },
   submitBtnText: {
     color: white,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: 'center',
   },

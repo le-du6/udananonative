@@ -98,7 +98,7 @@ const MainNavigator = StackNavigator({
       title: 'Quiz',
       headerTintColor: white,
       headerStyle: {
-        backgroundColor: purple,
+        backgroundColor: deepBlue,
       },
     },
   },
