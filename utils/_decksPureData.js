@@ -2,48 +2,25 @@ export const initialDecks = {
   LearnIn20Hours: {
     title: 'Learn Anythink in 20 Hours!',
     questions: [
-      // {
-      //   question: 'What is React?',
-      //   answer: 'A library for managing user interfaces'
-      // },
-      // {
-      //   question: 'What is React?',
-      //   answer: 'A library for managing user interfaces'
-      // },
-      // {
-      //   question: 'What is React?',
-      //   answer: 'A library for managing user interfaces'
-      // },
-      // {
-      //   question: 'What is React?',
-      //   answer: 'A library for managing user interfaces'
-      // },
-      // {
-      //   question: 'Where do you make Ajax requests in React?',
-      //   answer: 'The componentDidMount lifecycle event'
-      // }
+
     ]
   },
   BobyManTech: {
     title: 'BobyMan Method',
     questions: [
       {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        question: 'Is BobyMan Method about React Native?',
+        answer: 'Not at all!'
       },
-      {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
-      }
     ]
   },
   React: {
     title: 'React',
     questions: [
-      // {
-      //   question: 'What is React?',
-      //   answer: 'A library for managing user interfaces'
-      // },
+      {
+        question: 'Is React a library for managing user interfaces?',
+        answer: 'Oh! Yes'
+      },
       {
         question: 'Where do you make Ajax requests in React?',
         answer: 'The componentDidMount lifecycle event'

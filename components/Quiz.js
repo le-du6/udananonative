@@ -58,8 +58,8 @@ class Quiz extends Component {
 
     // console.log('Componente State: ', this.state)
     // console.log('Navigation STATE: ', this.props.navigation.state)
-    console.log('initialKey: ', this.state.initialKey)
-    console.log('replay: ', this.state.replay)
+    // console.log('initialKey: ', this.state.initialKey)
+    // console.log('replay: ', this.state.replay)
 
     if (this.state.ready === false) {
       return <AppLoading />
