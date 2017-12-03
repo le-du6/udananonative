@@ -3,7 +3,7 @@ import { Button, TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, S
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../reducers'
-import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
+import { deepGreen, deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 import { Constants } from 'expo'
 import { getDeck, getDecks } from '../utils/_decksData'
 import { AppLoading } from 'expo'
@@ -21,8 +21,8 @@ const SubmitBtn = ({ onPress, text, color }) => {
 }
 
 const onPressQorA = (navigation, isAnswer, hadVoted, deckId, score, numCard) => {
-  (hadVoted && isAnswer)
-    ? (hadVoted && isAnswer)
+  (hadVoted)
+    ? (!isAnswer)
         ? navigation.navigate('Quiz', { isAnswer: true, deckId, score, hadVoted, numCard })
         : navigation.goBack()
     : null
@@ -76,18 +76,21 @@ class Quiz extends Component {
             <Text style={{fontSize: 18, color: '#777777', textAlign: 'center'}}>
               Card n° { this.state.numCard + 1 } of {nb}
             </Text>
+            <Text style={{fontSize: 18, color: '#777777', textAlign: 'center'}}>
+              {(!isAnswer) ? "Question" : "Answer"}
+            </Text>
           </View>
 
           {this.props.currentDeck.questions.filter((x,i)=>(i===this.state.numCard)).map((e,i) =>
             <View key={i}>
 
               {(!isAnswer) ?
-              <View style={styles.QA}>
+              <View style={[styles.QA, {borderLeftColor: red}, {borderRightColor: red}]}>
                 <Text style={{fontSize: 22, paddingLeft: 20, paddingRight: 20}}>
                   { e.question }
                 </Text>
               </View>
-              : <View style={styles.decks}>
+              : <View style={[styles.QA, {borderLeftColor: deepGreen}, {borderRightColor: deepGreen}]}>
                 <Text style={{fontSize: 22, paddingLeft: 20, paddingRight: 20}}>
                   { e.answer }
                 </Text>
@@ -138,16 +141,16 @@ const styles = StyleSheet.create({
     marginBottom: 75,
     marginRight: 40,
     marginLeft: 40,
-    borderLeftColor: red,
+    // borderLeftColor: red,
     borderLeftWidth: 8,
-    borderRightColor: red,
+    // borderRightColor: red,
     borderRightWidth: 8,
     backgroundColor: '#FDFDFD'
   },
   card: {
     paddingTop: 5,
     paddingBottom: 5,
-    marginTop: 15,
+    marginTop: 5,
     marginBottom: 0,
     marginRight: 80,
     marginLeft: 80,

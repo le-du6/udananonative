@@ -12,3 +12,5 @@ export const middleBlue = '#538EA6'
 export const beige = '#F2D1B3'
 export const beigePlus = '#F2B8A2'
 export const beigeRed = '#F28C8C'
+
+export const deepGreen = '#006400'
