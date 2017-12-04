@@ -3,7 +3,7 @@ import { Notifications, Permissions } from 'expo'
 import { initialDecks } from '../utils/_decksPureData'
 
 // export const DECKS_STORAGE_KEY = 'myPersoDecks:001'
-export const DECKS_STORAGE_KEY = 'myPersoDecks:001'
+export const DECKS_STORAGE_KEY = 'myPersoDecks:002'
 export const NOTIFICATION_KEY = 'myPersoDecks:NOTIFICATION_KEY'
 
 export const timeToString = (time = Date.now()) => {
@@ -85,9 +85,10 @@ export const addCardToDeck =(deckID, card) => {
 
 export const saveDeckTitle =(title) => {
   const titleKey = title.trim().split(' ').join('')
+
   return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
     [titleKey]: { title: title.trim(), questions: [] }
-  })).then(data=>console.log(JSON.parse(data)))
+  })).then(x => titleKey)
 }
 
 export const getDeck = (id) => {

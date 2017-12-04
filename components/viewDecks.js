@@ -27,7 +27,6 @@ const deckItem = ({ key, title, nbQuestions }, navigation) => {
 
 const vDecks = (decks, { navigation }) => {
   const data = decks.map((deck, index) => {
-    // console.log('one by one :', deck)
     return deck
   })
   return (
@@ -44,14 +43,12 @@ class viewDecks extends Component {
     ready: false,
   }
   componentDidMount() {
-    // console.log(this.props)
     getDecks()
       .then((decks) => this.props.dispatch(receiveDecks(decks)))
       .then(() => this.setState(() => ({ready: true})))
       .catch(() => this.setState(() => ({ready: true})))
   }
   render() {
-    // console.log(this.props)
 
     if (this.state.ready === false) {
       return <AppLoading />
@@ -65,9 +62,6 @@ class viewDecks extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-  },
   decks: {
     paddingTop: 20,
     paddingBottom: 20,
@@ -82,7 +76,6 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  // console.log( state )
   return state
 }
 

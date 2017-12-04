@@ -33,16 +33,15 @@ class addDeck extends Component {
   submitNewDeck = (input) => {
     (input.trim() !== '') ? (
     saveDeckTitle(input)
-      .then((deck) => {
+      .then((deckId) => {
         this.props.dispatch(saveDeck())
         this.setState({input: ''})
+        return deckId
       })
-      .then(() => getDecks()
-                    .then((decks) => {
-                      this.props.dispatch(receiveDecks(decks))
-                      this.props.navigation.navigate( 'AllDecks')
-                    }
-                  ))
+      .then((deckId) => {
+        getDecks().then((decks) => this.props.dispatch(receiveDecks(decks)))
+        this.props.navigation.navigate('ViewOneDeck', { entryId: deckId })
+      })
     ) : null
   }
   componentDidMount() {
