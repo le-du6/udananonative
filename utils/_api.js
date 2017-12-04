@@ -1,14 +1,10 @@
 import { AsyncStorage } from 'react-native'
 import { Notifications, Permissions } from 'expo'
+import { initialDecks } from '../utils/_decksPureData'
 
-export const DECKS_STORAGE_KEY = 'myPersoDecks:decks'
+// export const DECKS_STORAGE_KEY = 'myPersoDecks:001'
+export const DECKS_STORAGE_KEY = 'myPersoDecks:001'
 export const NOTIFICATION_KEY = 'myPersoDecks:NOTIFICATION_KEY'
-
-// export const getDailyReminderValue = () => {
-//   return {
-//     today: "👋 Don't forget to train your prefered Deck!"
-//   }
-// }
 
 export const timeToString = (time = Date.now()) => {
   const date = new Date(time)
@@ -51,8 +47,8 @@ export const setLocalNotification = () => {
               tomorrow.setDate(tomorrow.getDate() + 1)
               // tomorrow.setDate(tomorrow.getDate())
               tomorrow.setHours(12)
-              tomorrow.setMinutes(0)
               // tomorrow.setHours(tomorrow.getHours())
+              tomorrow.setMinutes(0)
               // tomorrow.setMinutes(tomorrow.getMinutes() + 1)
 
               Notifications.scheduleLocalNotificationAsync(
@@ -115,6 +111,7 @@ export const getDecks = () => {
     return {decks: trt}
   })
   .catch(() => {
+    console.log(setDecks(initialDecks))
     console.error('No Decks - Fetching somes inital dummyDecks')
   })
 }

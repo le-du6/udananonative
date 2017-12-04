@@ -32,15 +32,3 @@ const decks = (state = { decks: initialDecks}, action) => {
 }
 
 export default decks
-
-// const init1 = {
-//   decks: [
-//     { key: 'A/B-Tests', title:'A/B Tests', nbQuestions: 2 },
-//     { key: 'LearnIn20Hours', title:'Learn Anythink in 20 Hours!', nbQuestions: 3 },
-//   ]
-// }
-// const init2 = {
-//   decks: [
-//     { key: 'monCul', title:'Mon Cul', nbQuestions: 20 },
-//   ]
-// }

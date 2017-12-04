@@ -12,7 +12,6 @@ import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } 
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './components/EntryDetail'
-import { getDecks2 } from './utils/_api'
 import { clearLocalNotification, setLocalNotification } from './utils/_api'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {
@@ -28,14 +27,12 @@ const Tabs = TabNavigator({
     screen: viewDecks,
     navigationOptions: {
       tabBarLabel: 'DECKS',
-      // tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
     },
   },
   AddDeck: {
     screen: AddEntry,
     navigationOptions: {
       tabBarLabel: 'ADD DECK',
-      // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
   },
 },
@@ -73,9 +70,6 @@ const MainNavigator = StackNavigator({
       headerStyle: {
         backgroundColor: red,
       },
-    // header: null
-    // tabBarLabel: 'NEW DECK',
-      // tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
   },
   EntryDetail: {
@@ -109,9 +103,6 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   decks: {
     borderColor: red,
     paddingTop: 20,

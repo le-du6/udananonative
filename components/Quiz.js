@@ -7,7 +7,6 @@ import { receiveOneDeck, receiveDecks } from '../actions'
 import reducer from '../reducers'
 import { getDeck, getDecks } from '../utils/_api'
 import { setLocalNotification, clearLocalNotification } from '../utils/_api'
-
 import { deepGreen, deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
 
 const SubmitBtn = ({ onPress, text, color }) => {
@@ -57,11 +56,6 @@ class Quiz extends Component {
     const nb = questions.length
     const { replay, initialKey, deckId, score, hadVoted, numCard, isAnswer } = this.state
     const { navigation } = this.props
-
-    // console.log('Componente State: ', this.state)
-    // console.log('Navigation STATE: ', this.props.navigation.state)
-    // console.log('initialKey: ', this.state.initialKey)
-    // console.log('replay: ', this.state.replay)
 
     if (this.state.ready === false) {
       return <AppLoading />
@@ -174,7 +168,6 @@ const keying = (key, nbCards, replay) => {
   const keySuffix = key.split('-').slice(-1)
   const keyPrefix = key.split('-').slice(0,-1).join('-')
   const page = parseInt(keySuffix[0], 10) - (nbCards*2*replay) - (replay-1)
-  // console.log('key: ', keyPrefix + '-' + page.toString())
   return keyPrefix + '-' + page.toString()
 }
 
@@ -194,8 +187,8 @@ const styles = StyleSheet.create({
   QA: {
     paddingTop: 5,
     paddingBottom: 5,
-    marginTop: 65,
-    marginBottom: 75,
+    marginTop: 45,
+    marginBottom: 45,
     marginRight: 40,
     marginLeft: 40,
     borderLeftWidth: 8,
