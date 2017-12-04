@@ -28,7 +28,6 @@ class addDeck extends Component {
   }
   handleTextChange = (input) => {
     this.setState({ input }, x => {
-      // console.log(this.state.input)
     })
   }
   submitNewDeck = (input) => {
@@ -86,15 +85,13 @@ const styles = StyleSheet.create({
     marginRight: 80,
   },
   AndroidSubmitBtn: {
-    backgroundColor: red,
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 60,
+    marginRight: 60,
     height: 45,
     borderRadius: 2,
-    alignSelf: 'flex-end',
     justifyContent: 'center',
-    alignItems: 'center',
   },
   submitBtnText: {
     color: white,
@@ -102,25 +99,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
   },
-  container: {
-    // flex: 1,
-  },
   decks: {
-    // flex: 1,
     paddingTop: 50,
     paddingBottom: 50,
     marginTop: 15,
     marginBottom: 15,
     marginRight: 15,
     marginLeft: 15,
-    // borderBottomColor: beigePlus,
-    // borderBottomWidth: 5,
-    // backgroundColor: red,
     backgroundColor: '#FDFDFD',
   },
   inputText: {
-    // paddingTop: 50,
-    // paddingBottom: 50,
     marginTop: 25,
     marginBottom: 35,
     marginRight: 45,
