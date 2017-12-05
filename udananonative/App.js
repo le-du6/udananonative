@@ -12,7 +12,6 @@ import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } 
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import EntryDetail from './components/EntryDetail'
-import { clearLocalNotification, setLocalNotification } from './utils/_api'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => {
   return (
@@ -86,9 +85,6 @@ const MainNavigator = StackNavigator({
 export default class App extends React.Component {
   state = {
     ready: false,
-  }
-  componentDidMount() {
-    clearLocalNotification().then(setLocalNotification)
   }
   render() {
     return (

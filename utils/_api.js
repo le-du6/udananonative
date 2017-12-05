@@ -2,8 +2,7 @@ import { AsyncStorage } from 'react-native'
 import { Notifications, Permissions } from 'expo'
 import { initialDecks } from '../utils/_decksPureData'
 
-// export const DECKS_STORAGE_KEY = 'myPersoDecks:001'
-export const DECKS_STORAGE_KEY = 'myPersoDecks:002'
+export const DECKS_STORAGE_KEY = 'myPersoDecks:65D'
 export const NOTIFICATION_KEY = 'myPersoDecks:NOTIFICATION_KEY'
 
 export const timeToString = (time = Date.now()) => {
@@ -67,8 +66,8 @@ export const setLocalNotification = () => {
 }
 
 export const setDecks = (data) => {
-  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
-  return data
+  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
+  .then(data => data)
 }
 
 export const addCardToDeck =(deckID, card) => {
@@ -112,7 +111,6 @@ export const getDecks = () => {
     return {decks: trt}
   })
   .catch(() => {
-    console.log(setDecks(initialDecks))
     console.error('No Decks - Fetching somes inital dummyDecks')
   })
 }

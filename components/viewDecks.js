@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, FlatList, Text, View, StyleSheet, Platform, StatusBar } from 'react-native'
 import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
+import { Constants, AppLoading } from 'expo'
 import reducer from '../reducers'
-import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
-import { Constants } from 'expo'
-import { getData, getDecks, getDeck } from '../utils/_api'
-import { AppLoading } from 'expo'
-import { connect } from 'react-redux'
 import { receiveDecks } from '../actions'
+import { setDecks, getDecks, getDeck } from '../utils/_api'
+import { clearLocalNotification, setLocalNotification } from '../utils/_api'
+import { DECKS_STORAGE_KEY } from '../utils/_api'
+import { AsyncStorage } from 'react-native'
+import { deepBlue, middleBlue, beige, beigePlus, beigeRed, red, purple, white } from '../utils/colors'
+import { initialDecks } from '../utils/_decksPureData'
 
 const deckItem = ({ key, title, nbQuestions }, navigation) => {
   return (
@@ -42,11 +44,33 @@ class viewDecks extends Component {
   state = {
     ready: false,
   }
+  componentWillMount() {
+    clearLocalNotification().then(setLocalNotification)
+
+    AsyncStorage.getAllKeys()
+      .then(keys => {
+          console.log('keys: ', keys)
+          // return AsyncStorage.multiRemove(keys)
+          return (!keys.includes(DECKS_STORAGE_KEY))
+            ? setDecks(initialDecks)
+                .then(() => {
+                  getDecks()
+                  .then((decks) => this.props.dispatch(receiveDecks(decks)))
+                  .then(() => this.setState(() => ({ready: true})))
+                  .catch((error) => console.error(error))
+                })
+                .catch((error) => console.error(error))
+            : getDecks()
+                .then((decks) => this.props.dispatch(receiveDecks(decks)))
+                .then(() => this.setState(() => ({ready: true})))
+                .catch((error) => console.error(error))
+      })
+  }
   componentDidMount() {
-    getDecks()
-      .then((decks) => this.props.dispatch(receiveDecks(decks)))
-      .then(() => this.setState(() => ({ready: true})))
-      .catch(() => this.setState(() => ({ready: true})))
+    // getDecks()
+    //   .then((decks) => this.props.dispatch(receiveDecks(decks)))
+    //   .then(() => this.setState(() => ({ready: true})))
+    //   .catch((error) => console.error(error))
   }
   render() {
 
@@ -75,8 +99,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const mapStateToProps = state => {
-  return state
-}
+const mapStateToProps = state => state
 
 export default connect(mapStateToProps, )(viewDecks)
